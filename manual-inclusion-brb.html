@@ -1,0 +1,649 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Manual de Usuario — BRB Inclusión & Neuro-Estrategias</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400&family=IBM+Plex+Mono:wght@300;400;500&family=IBM+Plex+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --verde:#0d4a2f;--verde-med:#1a6b42;--verde-cl:#2d8a57;--verde-bg:rgba(45,138,87,.08);
+  --oro:#C8A84B;--oro-dim:#8a7233;--oro-bg:rgba(200,168,75,.08);
+  --crema:#F2EFE8;--crema-dark:#ddd8cc;
+  --negro:#080C08;--gris:#111a11;--gris-b:#1e281e;--gris-cl:#7a8a7a;
+  --error:#c0392b;--success:#1a7a4a;--warn:#d4860a;
+  --fd:'Cormorant Garamond',Georgia,serif;
+  --fm:'IBM Plex Mono','Courier New',monospace;
+  --fb:'IBM Plex Sans',sans-serif;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{font-size:16px;scroll-behavior:smooth;}
+body{background:var(--negro);color:var(--crema);font-family:var(--fb);display:grid;grid-template-columns:280px 1fr;min-height:100vh;}
+
+/* SIDEBAR */
+.sidebar{position:fixed;top:0;left:0;bottom:0;width:280px;background:#080c08;border-right:1px solid var(--gris-b);display:flex;flex-direction:column;overflow-y:auto;z-index:100;}
+.sidebar::-webkit-scrollbar{width:3px;}
+.sidebar::-webkit-scrollbar-thumb{background:#1e281e;}
+.sb-logo{padding:2rem 1.5rem 1.5rem;border-bottom:1px solid var(--gris-b);}
+.sb-marca{font-family:var(--fd);font-size:1.3rem;font-weight:700;color:var(--verde-cl);letter-spacing:.05em;}
+.sb-marca em{color:var(--crema);font-weight:300;font-style:italic;}
+.sb-sub{font-family:var(--fm);font-size:.55rem;letter-spacing:.15em;text-transform:uppercase;color:var(--gris-cl);margin-top:.25rem;}
+.sb-version{font-family:var(--fm);font-size:.52rem;color:#2a3a2a;margin-top:.2rem;}
+.sb-sec{font-family:var(--fm);font-size:.52rem;letter-spacing:.18em;text-transform:uppercase;color:#2a3a2a;padding:.75rem 1.5rem .4rem;}
+.sb-link{display:flex;align-items:center;gap:.75rem;padding:.65rem 1.5rem;text-decoration:none;color:var(--gris-cl);font-size:.8rem;transition:all .15s;border-left:2px solid transparent;}
+.sb-link:hover{color:var(--crema);background:rgba(45,138,87,.05);border-left-color:var(--verde-cl);}
+.sb-link.activo{color:var(--verde-cl);background:var(--verde-bg);border-left-color:var(--verde-cl);}
+.sb-num{font-family:var(--fm);font-size:.56rem;color:var(--verde-cl);min-width:22px;opacity:.7;}
+.sb-footer{margin-top:auto;padding:1.5rem;border-top:1px solid var(--gris-b);}
+.sb-footer-brand{font-family:var(--fm);font-size:.52rem;color:#2a3a2a;letter-spacing:.06em;line-height:1.8;}
+.sb-footer-brand a{color:var(--verde-cl);text-decoration:none;opacity:.6;}
+
+/* CONTENIDO */
+.contenido{grid-column:2;}
+
+/* PORTADA */
+.portada{background:linear-gradient(135deg,var(--verde) 0%,#0a2a1a 60%,var(--negro) 100%);padding:80px 80px 60px;border-bottom:1px solid var(--gris-b);position:relative;overflow:hidden;}
+.portada::before{content:'';position:absolute;top:-80px;right:-80px;width:450px;height:450px;background:radial-gradient(circle,rgba(45,138,87,.15) 0%,transparent 70%);pointer-events:none;}
+.portada-eyebrow{font-family:var(--fm);font-size:.58rem;letter-spacing:.2em;text-transform:uppercase;color:rgba(45,138,87,.7);margin-bottom:1.5rem;}
+.portada-titulo{font-family:var(--fd);font-size:3.2rem;font-weight:300;line-height:1.05;margin-bottom:1.25rem;position:relative;z-index:1;}
+.portada-titulo em{color:var(--verde-cl);font-style:italic;}
+.portada-sub{font-size:.92rem;color:rgba(242,239,232,.65);line-height:1.75;max-width:600px;margin-bottom:2rem;}
+.portada-chips{display:flex;flex-wrap:wrap;gap:.5rem;}
+.chip{font-family:var(--fm);font-size:.56rem;letter-spacing:.08em;padding:.28rem .7rem;clip-path:polygon(5px 0%,100% 0%,calc(100% - 5px) 100%,0% 100%);}
+.chip-verde{background:rgba(45,138,87,.15);border:1px solid rgba(45,138,87,.3);color:var(--verde-cl);}
+.chip-oro{background:var(--oro-bg);border:1px solid rgba(200,168,75,.2);color:var(--oro);}
+.chip-warn{background:rgba(212,134,10,.1);border:1px solid rgba(212,134,10,.25);color:var(--warn);}
+
+/* SECCIONES */
+.seccion{padding:56px 80px;border-bottom:1px solid var(--gris-b);}
+.seccion:last-child{border-bottom:none;}
+.sec-num{font-family:var(--fm);font-size:.58rem;letter-spacing:.18em;text-transform:uppercase;color:var(--verde-cl);opacity:.7;margin-bottom:.75rem;}
+.sec-titulo{font-family:var(--fd);font-size:2.1rem;font-weight:300;line-height:1.15;margin-bottom:1.25rem;}
+.sec-titulo em{color:var(--verde-cl);font-style:italic;}
+.sec-lead{font-size:.97rem;color:var(--crema-dark);line-height:1.8;margin-bottom:1.75rem;max-width:680px;}
+.sec-p{font-size:.875rem;color:var(--gris-cl);line-height:1.8;margin-bottom:1.1rem;max-width:680px;}
+.sec-p strong{color:var(--crema);}
+.sec-h3{font-family:var(--fd);font-size:1.25rem;font-weight:600;color:var(--crema);margin:1.75rem 0 .7rem;}
+.sec-h4{font-family:var(--fm);font-size:.62rem;letter-spacing:.15em;text-transform:uppercase;color:var(--verde-cl);margin:1.4rem 0 .55rem;}
+
+/* STEPS */
+.steps{display:flex;flex-direction:column;gap:0;margin:1.4rem 0;}
+.step{display:flex;gap:1.4rem;padding:1.1rem 0;border-bottom:1px solid #0d120d;}
+.step:last-child{border-bottom:none;}
+.step-left{display:flex;flex-direction:column;align-items:center;}
+.step-num-box{width:34px;height:34px;background:var(--negro);border:1px solid var(--verde-cl);display:flex;align-items:center;justify-content:center;font-family:var(--fm);font-size:.72rem;color:var(--verde-cl);flex-shrink:0;clip-path:polygon(5px 0%,100% 0%,calc(100% - 5px) 100%,0% 100%);}
+.step-line{flex:1;width:1px;background:#1e281e;margin-top:.25rem;}
+.step-body{flex:1;padding-bottom:.4rem;}
+.step-title{font-family:var(--fb);font-size:.88rem;font-weight:600;color:var(--crema);margin-bottom:.35rem;}
+.step-desc{font-size:.82rem;color:var(--gris-cl);line-height:1.65;}
+.step-desc strong{color:var(--crema);}
+
+/* CARDS */
+.card-grid{display:grid;grid-template-columns:1fr 1fr;gap:.9rem;margin:1.4rem 0;}
+.card-grid-3{grid-template-columns:repeat(3,1fr);}
+.card{background:#0a100a;border:1px solid var(--gris-b);padding:1.4rem;}
+.card-icon{font-size:1.4rem;margin-bottom:.65rem;}
+.card-title{font-family:var(--fb);font-size:.875rem;font-weight:600;color:var(--crema);margin-bottom:.35rem;}
+.card-desc{font-size:.78rem;color:var(--gris-cl);line-height:1.6;}
+.card-tag{font-family:var(--fm);font-size:.52rem;color:var(--verde-cl);margin-top:.55rem;letter-spacing:.06em;}
+
+/* TIP / AVISO */
+.tip{background:rgba(45,138,87,.05);border:1px solid rgba(45,138,87,.15);border-left:3px solid var(--verde-cl);padding:.9rem 1.1rem;margin:1.4rem 0;font-size:.83rem;color:var(--crema-dark);line-height:1.65;}
+.tip strong{color:var(--verde-cl);}
+.aviso{background:rgba(192,57,43,.06);border:1px solid rgba(192,57,43,.2);border-left:3px solid var(--error);padding:.9rem 1.1rem;margin:1.4rem 0;font-size:.83rem;color:var(--crema-dark);line-height:1.65;}
+.aviso strong{color:#e74c3c;}
+.warn-box{background:rgba(212,134,10,.05);border:1px solid rgba(212,134,10,.2);border-left:3px solid var(--warn);padding:.9rem 1.1rem;margin:1.4rem 0;font-size:.83rem;color:var(--crema-dark);line-height:1.65;}
+.warn-box strong{color:var(--warn);}
+.info{background:rgba(13,74,47,.1);border:1px solid rgba(45,138,87,.2);border-left:3px solid var(--verde-med);padding:.9rem 1.1rem;margin:1.4rem 0;font-size:.83rem;color:var(--crema-dark);line-height:1.65;}
+
+/* CODE */
+.code-block{background:#080c08;border:1px solid #1e281e;border-left:3px solid var(--verde-cl);padding:.9rem 1.1rem;margin:.9rem 0;font-family:var(--fm);font-size:.75rem;color:#8ab89a;line-height:1.7;white-space:pre-wrap;}
+.code-label{font-family:var(--fm);font-size:.52rem;letter-spacing:.15em;text-transform:uppercase;color:var(--verde-cl);margin-bottom:.35rem;opacity:.7;}
+
+/* TABLE */
+.tabla{width:100%;border-collapse:collapse;margin:1.4rem 0;font-size:.8rem;}
+.tabla th{background:#0a100a;font-family:var(--fm);font-size:.58rem;letter-spacing:.12em;text-transform:uppercase;color:var(--verde-cl);padding:.7rem .9rem;text-align:left;border-bottom:1px solid var(--verde-cl);}
+.tabla td{padding:.65rem .9rem;border-bottom:1px solid #111a11;color:var(--crema-dark);vertical-align:top;line-height:1.5;}
+.tabla tr:last-child td{border-bottom:none;}
+.tabla tr:hover td{background:#0a100a;}
+
+/* LISTA */
+.lista{list-style:none;display:flex;flex-direction:column;gap:.55rem;margin:.9rem 0;}
+.lista li{display:flex;align-items:flex-start;gap:.7rem;font-size:.85rem;color:var(--crema-dark);line-height:1.6;}
+.lista li::before{content:'→';color:var(--verde-cl);flex-shrink:0;margin-top:.05rem;font-family:var(--fm);opacity:.7;}
+.lista li strong{color:var(--crema);}
+
+/* DIAGNÓSTICOS */
+.diag-grid{display:grid;grid-template-columns:1fr 1fr;gap:.75rem;margin:1.4rem 0;}
+.diag-card{background:#0a100a;border:1px solid var(--gris-b);border-top:2px solid var(--verde-cl);padding:1.25rem;}
+.diag-name{font-family:var(--fb);font-size:.85rem;font-weight:700;color:var(--crema);margin-bottom:.3rem;}
+.diag-dsm{font-family:var(--fm);font-size:.55rem;color:var(--verde-cl);letter-spacing:.08em;margin-bottom:.6rem;}
+.diag-estrategias{font-size:.78rem;color:var(--gris-cl);line-height:1.6;}
+
+/* MÓDULOS */
+.mod-lista{display:flex;flex-direction:column;gap:.75rem;margin:1.4rem 0;}
+.mod-item{background:#0a100a;border:1px solid var(--gris-b);padding:1.25rem;display:flex;gap:1rem;align-items:flex-start;}
+.mod-icon{font-size:1.6rem;flex-shrink:0;}
+.mod-body{}
+.mod-name{font-family:var(--fb);font-size:.88rem;font-weight:700;color:var(--crema);margin-bottom:.2rem;}
+.mod-norm{font-family:var(--fm);font-size:.55rem;color:var(--verde-cl);letter-spacing:.08em;margin-bottom:.4rem;}
+.mod-desc{font-size:.8rem;color:var(--gris-cl);line-height:1.6;}
+
+/* CONTACTO */
+.contacto-box{background:linear-gradient(135deg,var(--verde) 0%,#0a2a1a 100%);padding:2.5rem;text-align:center;margin-top:2rem;}
+.contacto-titulo{font-family:var(--fd);font-size:1.9rem;font-weight:300;margin-bottom:.9rem;}
+.contacto-titulo em{color:var(--verde-cl);font-style:italic;}
+.contacto-desc{color:rgba(242,239,232,.65);font-size:.875rem;line-height:1.7;margin-bottom:1.75rem;max-width:480px;margin-left:auto;margin-right:auto;}
+.btn-contacto{display:inline-flex;align-items:center;gap:.6rem;background:var(--verde-cl);color:white;font-family:var(--fb);font-size:.78rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;padding:13px 28px;text-decoration:none;clip-path:polygon(8px 0%,100% 0%,calc(100% - 8px) 100%,0% 100%);transition:background .2s;}
+.btn-contacto:hover{background:var(--verde-med);}
+
+/* RESPONSIVE */
+@media print{body{grid-template-columns:1fr;}.sidebar{display:none;}.seccion,.portada{padding:28px 32px;}}
+@media(max-width:900px){body{grid-template-columns:1fr;}.sidebar{display:none;}.seccion,.portada{padding:32px 24px;}.card-grid,.diag-grid{grid-template-columns:1fr;}.card-grid-3{grid-template-columns:1fr 1fr;}}
+</style>
+</head>
+<body>
+
+<!-- SIDEBAR -->
+<nav class="sidebar">
+  <div class="sb-logo">
+    <div class="sb-marca">BRB <em>Inclusión</em></div>
+    <div class="sb-sub">Manual de Usuario</div>
+    <div class="sb-version">v1.0 · Abril 2026</div>
+  </div>
+  <div class="sb-sec">Contenido</div>
+  <a class="sb-link activo" href="#que-es"><span class="sb-num">01</span>¿Qué es?</a>
+  <a class="sb-link" href="#acceso"><span class="sb-num">02</span>Cómo ingresar</a>
+  <a class="sb-link" href="#apikeys"><span class="sb-num">03</span>Motores de IA</a>
+  <a class="sb-link" href="#legajos"><span class="sb-num">04</span>Sistema de legajos</a>
+  <a class="sb-link" href="#adjuntos"><span class="sb-num">05</span>Adjuntar documentos clínicos</a>
+  <a class="sb-link" href="#modulos"><span class="sb-num">06</span>Los 6 módulos</a>
+  <a class="sb-link" href="#diagnosticos"><span class="sb-num">07</span>Diagnósticos y estrategias</a>
+  <a class="sb-link" href="#historial"><span class="sb-num">08</span>Historial y exportación</a>
+  <a class="sb-link" href="#privacidad"><span class="sb-num">09</span>Privacidad de datos</a>
+  <a class="sb-link" href="#normativa"><span class="sb-num">10</span>Base normativa</a>
+  <a class="sb-link" href="#responsabilidad"><span class="sb-num">11</span>Responsabilidad profesional</a>
+  <a class="sb-link" href="#faq"><span class="sb-num">12</span>Preguntas frecuentes</a>
+  <a class="sb-link" href="#contacto"><span class="sb-num">13</span>Contacto y soporte</a>
+  <div class="sb-footer">
+    <div class="sb-footer-brand">
+      BRB Estrategia &amp; Procesos<br>
+      Soberanía Técnica Ediciones<br>
+      Puerto Madryn · Chubut · Argentina<br>
+      <a href="mailto:bbbarrera1986@gmail.com">bbbarrera1986@gmail.com</a>
+    </div>
+  </div>
+</nav>
+
+<!-- CONTENIDO -->
+<div class="contenido">
+
+  <!-- PORTADA -->
+  <div class="portada">
+    <div class="portada-eyebrow">Manual de Usuario · BRB Estrategia &amp; Procesos</div>
+    <div class="portada-titulo">BRB Inclusión &amp;<br><em>Neuro-Estrategias</em></div>
+    <div class="portada-sub">Guía completa para MAI, psicopedagogos y fonoaudiólogos. Gestión de legajos, generación de documentos normativos (PPI/DUA) y traducción clínico-pedagógica con inteligencia artificial.</div>
+    <div class="portada-chips">
+      <span class="chip chip-verde">Para MAI y Psicopedagogos</span>
+      <span class="chip chip-verde">Res. CFE 311/16</span>
+      <span class="chip chip-verde">v1.0</span>
+      <span class="chip chip-oro">Gemini · Claude · GPT-4</span>
+      <span class="chip chip-warn">7.ª herramienta BRB IA</span>
+    </div>
+  </div>
+
+  <!-- 01 QUÉ ES -->
+  <div class="seccion" id="que-es">
+    <div class="sec-num">01 · ¿Qué es?</div>
+    <div class="sec-titulo">Del diagnóstico clínico<br><em>a la estrategia de aula</em></div>
+    <div class="sec-lead">BRB Inclusión & Neuro-Estrategias es una herramienta de inteligencia artificial que asiste a profesionales del área de inclusión educativa — MAI, psicopedagogos y fonoaudiólogos — en la generación de documentos técnicos normativos, con base en neurociencias aplicadas y el marco legal argentino.</div>
+
+    <div class="card-grid card-grid-3">
+      <div class="card">
+        <div class="card-icon">📋</div>
+        <div class="card-title">Documentos normativos</div>
+        <div class="card-desc">Genera PPI, Configuraciones de Apoyo e Informes de Avance según la estructura de la Res. CFE 311/16.</div>
+        <div class="card-tag">Anexos II, III y IV · Res. 311/16</div>
+      </div>
+      <div class="card">
+        <div class="card-icon">🔬</div>
+        <div class="card-title">Traductor clínico-pedagógico</div>
+        <div class="card-desc">Convierte diagnósticos DSM-5/CIE-11 en estrategias de aula concretas con base neuroeducativa.</div>
+        <div class="card-tag">DSM-5 · DUA · Neurociencias</div>
+      </div>
+      <div class="card">
+        <div class="card-icon">🔒</div>
+        <div class="card-title">Privacidad total</div>
+        <div class="card-desc">Los datos del alumno y los documentos clínicos nunca salen del dispositivo. Se guardan localmente.</div>
+        <div class="card-tag">Ley 25.326 · localStorage</div>
+      </div>
+    </div>
+
+    <div class="warn-box"><strong>⚠ PRINCIPIO IRRENUNCIABLE:</strong> Todo texto generado por esta plataforma es un borrador orientativo. El profesional firmante es el único y exclusivo responsable de la interpretación clínica, validación técnica y uso institucional del documento. La firma implica responsabilidad profesional plena.</div>
+  </div>
+
+  <!-- 02 ACCESO -->
+  <div class="seccion" id="acceso">
+    <div class="sec-num">02 · Cómo ingresar</div>
+    <div class="sec-titulo">Tres pantallas<br><em>de acceso</em></div>
+    <div class="sec-lead">El ingreso a la herramienta tiene tres pasos que se completan una sola vez. A partir del segundo uso, el sistema reconoce tu dispositivo y te lleva directamente a tus legajos.</div>
+
+    <div class="steps">
+      <div class="step">
+        <div class="step-left"><div class="step-num-box">1</div><div class="step-line"></div></div>
+        <div class="step-body">
+          <div class="step-title">Login con clave BRB</div>
+          <div class="step-desc">Ingresás tu <strong>correo electrónico</strong> y tu <strong>clave de acceso BRB</strong> (formato BRB-INC-2026-XX01). Esta clave te la provee el administrador. No es tu contraseña de Gmail.</div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-left"><div class="step-num-box">2</div><div class="step-line"></div></div>
+        <div class="step-body">
+          <div class="step-title">Configuración del motor de IA</div>
+          <div class="step-desc">Configurás al menos un motor de IA (Gemini gratuito, Claude o GPT-4). Esta pantalla aparece <strong>solo la primera vez</strong>. La key queda guardada en tu navegador.</div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-left"><div class="step-num-box">3</div></div>
+        <div class="step-body">
+          <div class="step-title">Pantalla principal — Legajos</div>
+          <div class="step-desc">Accedés al panel principal donde están todos tus legajos. Podés crear uno nuevo, buscar por nombre o número, y generar documentos desde la ficha de cada alumno.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="aviso"><strong>⚠ Un dispositivo por licencia:</strong> Al primer login, el sistema registra tu dispositivo automáticamente. Si intentás ingresar desde otro equipo, el acceso será bloqueado. Para cambiar de dispositivo, contactá al administrador — el proceso tarda menos de 24 horas.</div>
+  </div>
+
+  <!-- 03 API KEYS -->
+  <div class="seccion" id="apikeys">
+    <div class="sec-num">03 · Motores de IA</div>
+    <div class="sec-titulo">Tres opciones,<br><em>vos elegís</em></div>
+    <div class="sec-lead">La herramienta es compatible con tres motores de inteligencia artificial. Podés configurar más de uno y cambiar entre ellos al generar cada documento, según el tipo de texto que necesités.</div>
+
+    <div class="card-grid">
+      <div class="card">
+        <div class="card-icon" style="color:#4285f4">◉</div>
+        <div class="card-title">Gemini 2.5 Flash — Google</div>
+        <div class="card-desc">Recomendado para el uso diario. Gratuito con hasta 250 requests por día. Sin tarjeta de crédito. Obtené tu key en aistudio.google.com/apikey — comienza con AIza...</div>
+        <div class="card-tag" style="color:#4285f4">GRATUITO · Recomendado</div>
+      </div>
+      <div class="card">
+        <div class="card-icon" style="color:#cc785c">◉</div>
+        <div class="card-title">Claude Sonnet — Anthropic</div>
+        <div class="card-desc">Alta calidad en redacción técnica y documentos normativos complejos. Requiere créditos prepagos. Key en console.anthropic.com/keys — comienza con sk-ant-...</div>
+        <div class="card-tag" style="color:#cc785c">PAGO · Alta calidad clínica</div>
+      </div>
+      <div class="card">
+        <div class="card-icon" style="color:#10a37f">◉</div>
+        <div class="card-title">GPT-4o — OpenAI</div>
+        <div class="card-desc">Muy útil para informes de obras sociales y textos formales estructurados. Requiere créditos prepagos. Key en platform.openai.com/api-keys — comienza con sk-...</div>
+        <div class="card-tag" style="color:#10a37f">PAGO · Informes formales</div>
+      </div>
+    </div>
+
+    <div class="tip"><strong>💡 Recomendación práctica:</strong> Comenzá con Gemini para documentos de uso diario (PPI, Configuraciones de Apoyo). Usá Claude para el Traductor Clínico-Pedagógico cuando necesitás mayor precisión neuroeducativa. Usá GPT-4 para Informes de Avance destinados a obras sociales.</div>
+
+    <div class="info">Las keys se guardan únicamente en tu navegador (localStorage). Nunca se envían a servidores de BRB. Las solicitudes van directamente desde tu dispositivo al proveedor de IA elegido.</div>
+  </div>
+
+  <!-- 04 LEGAJOS -->
+  <div class="seccion" id="legajos">
+    <div class="sec-num">04 · Sistema de legajos</div>
+    <div class="sec-titulo">Trazabilidad por alumno<br><em>desde el primer día</em></div>
+    <div class="sec-lead">Cada alumno tiene su propio legajo con número único, datos escolares, datos clínicos y perfil funcional. Todos los documentos generados quedan asociados al legajo con fecha y motor usado.</div>
+
+    <div class="sec-h3">Cómo crear un legajo nuevo</div>
+    <div class="steps">
+      <div class="step">
+        <div class="step-left"><div class="step-num-box">1</div><div class="step-line"></div></div>
+        <div class="step-body">
+          <div class="step-title">Clic en "+ Nuevo" en el sidebar</div>
+          <div class="step-desc">El sistema genera automáticamente un número de legajo correlativo (ej: 2026-001). Podés editarlo si tu institución usa otra nomenclatura.</div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-left"><div class="step-num-box">2</div><div class="step-line"></div></div>
+        <div class="step-body">
+          <div class="step-title">Completar datos del alumno</div>
+          <div class="step-desc">Apellido, nombre, DNI, fecha de nacimiento. Datos escolares: institución, año/sección, nivel, ciclo lectivo y nombre del MAI.</div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-left"><div class="step-num-box">3</div><div class="step-line"></div></div>
+        <div class="step-body">
+          <div class="step-title">Completar datos clínicos</div>
+          <div class="step-desc">Diagnóstico principal (lista predefinida con las condiciones más frecuentes), diagnósticos secundarios, profesional tratante, obra social y estado del CUD.</div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-left"><div class="step-num-box">4</div></div>
+        <div class="step-body">
+          <div class="step-title">Redactar el perfil funcional</div>
+          <div class="step-desc">Campo libre donde describís las fortalezas, dificultades específicas, estilo de aprendizaje, comportamiento en el aula y nivel de autonomía. <strong>Este campo es el insumo más importante para la IA</strong> — cuanto más detallado, más preciso será el documento generado.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="sec-h3">Búsqueda de legajos</div>
+    <div class="sec-p">El campo de búsqueda en el sidebar filtra en tiempo real por <strong>nombre, apellido o número de legajo</strong>. No hay límite de legajos por licencia.</div>
+
+    <div class="sec-h3">Datos del legajo</div>
+    <table class="tabla">
+      <tr><th>Campo</th><th>Obligatorio</th><th>Uso</th></tr>
+      <tr><td>N° de Legajo</td><td>Sí</td><td>Trazabilidad e identificación única. Autogenerado, editable.</td></tr>
+      <tr><td>Apellido y Nombre</td><td>Sí</td><td>Identificación del alumno. En los prompts se reemplaza por [ESTUDIANTE] para proteger la identidad.</td></tr>
+      <tr><td>Diagnóstico principal</td><td>Sí</td><td>Base para la selección de estrategias neuroeducativas.</td></tr>
+      <tr><td>Perfil funcional</td><td>Recomendado</td><td>Insumo principal para personalizar los documentos. Sin este campo, la IA genera documentos genéricos.</td></tr>
+      <tr><td>CUD</td><td>No</td><td>Estado del Certificado Único de Discapacidad. Relevante para obras sociales.</td></tr>
+      <tr><td>Obra social</td><td>No</td><td>Se incluye automáticamente en los Informes de Avance MAI.</td></tr>
+    </table>
+
+    <div class="aviso"><strong>⚠ Privacidad:</strong> Los datos del legajo se guardan en tu dispositivo (localStorage). Si limpiás el caché del navegador o usás otro dispositivo, los legajos no estarán disponibles. Exportá regularmente tus legajos en .txt como respaldo.</div>
+  </div>
+
+  <!-- 05 ADJUNTOS -->
+  <div class="seccion" id="adjuntos">
+    <div class="sec-num">05 · Adjuntar documentos clínicos</div>
+    <div class="sec-titulo">El informe médico<br><em>como base de trabajo</em></div>
+    <div class="sec-lead">Podés adjuntar informes médicos, psicológicos, neurológicos o historias clínicas en formato PDF o DOCX. El texto se extrae localmente en tu navegador y se usa como contexto para la generación.</div>
+
+    <div class="card-grid">
+      <div class="card">
+        <div class="card-icon">📄</div>
+        <div class="card-title">Formatos aceptados</div>
+        <div class="card-desc">PDF con texto seleccionable (no escaneado) y DOCX/DOC. La extracción es completamente local — el archivo nunca sale de tu dispositivo.</div>
+        <div class="card-tag">PDF · DOCX · DOC</div>
+      </div>
+      <div class="card">
+        <div class="card-icon">✂️</div>
+        <div class="card-title">Límite de extracción</div>
+        <div class="card-desc">Se extraen hasta 12.000 caracteres del documento (aproximadamente 2.000 palabras). Si el informe es más largo, se toma la primera parte.</div>
+        <div class="card-tag">~2.000 palabras máx.</div>
+      </div>
+    </div>
+
+    <div class="sec-h3">¿Qué documentos es útil adjuntar?</div>
+    <ul class="lista">
+      <li><strong>Informe neuropsicológico completo</strong> — aporta el perfil cognitivo detallado que la IA usa para personalizar las estrategias</li>
+      <li><strong>Informe psicopedagógico previo</strong> — para continuidad de las Configuraciones de Apoyo del ciclo anterior</li>
+      <li><strong>Diagnóstico del neurólogo o psiquiatra</strong> — base para el Traductor Clínico-Pedagógico</li>
+      <li><strong>Informe fonoaudiológico</strong> — especialmente útil para casos de TEL, dislexia y discapacidad auditiva</li>
+      <li><strong>PPI del año anterior</strong> — para actualización de metas y configuraciones</li>
+    </ul>
+
+    <div class="aviso"><strong>⚠ PDFs escaneados no funcionan:</strong> Los documentos escaneados contienen imágenes, no texto. Solo funcionan PDFs generados digitalmente o con OCR aplicado. Si tenés un escaneado, convertilo a texto antes de adjuntarlo.</div>
+
+    <div class="tip"><strong>💡 Mejor práctica:</strong> Completá el perfil funcional del legajo con los datos clave del informe médico, y luego adjuntá el informe como complemento. La combinación de ambos inputs produce los documentos más precisos.</div>
+  </div>
+
+  <!-- 06 MÓDULOS -->
+  <div class="seccion" id="modulos">
+    <div class="sec-num">06 · Los 6 módulos</div>
+    <div class="sec-titulo">Un módulo para<br><em>cada necesidad</em></div>
+    <div class="sec-lead">Cada módulo genera un tipo de documento diferente, con estructura y lenguaje apropiados para su destinatario. La IA adapta el contenido al diagnóstico, perfil funcional y datos del legajo del alumno.</div>
+
+    <div class="mod-lista">
+      <div class="mod-item">
+        <div class="mod-icon">📋</div>
+        <div class="mod-body">
+          <div class="mod-name">M1 — PPI: Proyecto Pedagógico Individual</div>
+          <div class="mod-norm">Res. CFE 311/16 · Anexo II</div>
+          <div class="mod-desc">Genera el PPI completo con todos los elementos exigidos por la normativa: datos del alumno, institución, equipo interviniente, diagnóstico, metas trimestrales por materia, configuraciones de apoyo previstas, compromisos de la familia y firmas de corresponsabilidad. Campos requeridos: período, materias incluidas, metas, recursos y compromisos familiares.</div>
+        </div>
+      </div>
+      <div class="mod-item">
+        <div class="mod-icon">🧩</div>
+        <div class="mod-body">
+          <div class="mod-name">M2 — Configuraciones de Apoyo</div>
+          <div class="mod-norm">Res. CFE 311/16 · Anexo III</div>
+          <div class="mod-desc">Diseña las configuraciones de apoyo según el tipo de barrera identificada: acceso físico, comunicación, didácticas o actitudinales. Incluye estrategias concretas de atención, asesoramiento, provisión de recursos, cooperación y seguimiento. Puede generarse por materia o para todas las áreas.</div>
+        </div>
+      </div>
+      <div class="mod-item">
+        <div class="mod-icon">🔬</div>
+        <div class="mod-body">
+          <div class="mod-name">M3 — Traductor Clínico-Pedagógico</div>
+          <div class="mod-norm">DUA · DSM-5 · Neurociencias aplicadas</div>
+          <div class="mod-desc">Convierte el diagnóstico clínico en estrategias de aula concretas y específicas. No genera listas genéricas — aplica transposición didáctica basada en el perfil funcional del alumno. Por ejemplo, ante "baja memoria de trabajo": listas de cotejo procedimentales, apoyos visuales permanentes, segmentación de consignas. Es el módulo más utilizado para orientar al docente de grado.</div>
+        </div>
+      </div>
+      <div class="mod-item">
+        <div class="mod-icon">📊</div>
+        <div class="mod-body">
+          <div class="mod-name">M4 — Informe de Avance MAI</div>
+          <div class="mod-norm">Obras sociales · Supervisión escolar · Res. CFE 311/16</div>
+          <div class="mod-desc">Genera el informe técnico de evolución según el destinatario: obra social/prepaga, supervisión escolar, familia, equipo de orientación o médico tratante. Incluye horas de apoyo, avances del período, dificultades persistentes y recomendaciones. Disponible en versiones trimestrales, anuales y de alta.</div>
+        </div>
+      </div>
+      <div class="mod-item">
+        <div class="mod-icon">🎯</div>
+        <div class="mod-body">
+          <div class="mod-name">M5 — Planificación DUA</div>
+          <div class="mod-norm">Diseño Universal para el Aprendizaje · CAST 2018</div>
+          <div class="mod-desc">Diseña una clase o unidad didáctica con múltiples medios de representación, acción/expresión y motivación. Aplica los tres principios DUA para que el docente de grado pueda llegar a todos los alumnos del aula, incluyendo al alumno con inclusión. Requiere materia, tema, duración y objetivo de aprendizaje.</div>
+        </div>
+      </div>
+      <div class="mod-item">
+        <div class="mod-icon">✅</div>
+        <div class="mod-body">
+          <div class="mod-name">M6 — Evaluación Adaptada</div>
+          <div class="mod-norm">Res. CFE 311/16 · Art. 48 — criterios de promoción</div>
+          <div class="mod-desc">Genera un instrumento evaluativo vinculado a los objetivos del PPI del alumno. Incluye criterios de logro adaptados, tipo de evaluación (oral con apoyo visual, escrita simplificada, múltiple opción, portfolio, etc.) y tiempo extendido. Diseñado para que el docente de grado pueda aplicarlo sin intermediación del MAI.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="tip"><strong>💡 Flujo recomendado de uso:</strong> M1 (PPI) → M2 (Configuraciones de Apoyo) → M3 (Traductor para el docente) → M4 (Informe de avance al cierre del trimestre) → M6 (Evaluación adaptada al inicio del período de exámenes).</div>
+  </div>
+
+  <!-- 07 DIAGNÓSTICOS -->
+  <div class="seccion" id="diagnosticos">
+    <div class="sec-num">07 · Diagnósticos y estrategias</div>
+    <div class="sec-titulo">Los 5 diagnósticos<br><em>más frecuentes en secundaria</em></div>
+    <div class="sec-lead">La herramienta tiene una matriz de transposición didáctica específica para los diagnósticos de mayor prevalencia en el sistema educativo secundario argentino. El Módulo 3 (Traductor) aplica estas estrategias adaptadas al perfil funcional individual del alumno.</div>
+
+    <div class="diag-grid">
+      <div class="diag-card">
+        <div class="diag-name">TDAH</div>
+        <div class="diag-dsm">DSM-5: F90.x · Prevalencia escolar: 4-11%</div>
+        <div class="diag-estrategias">Segmentación de tareas en pasos cortos · Recordatorios visuales · Asiento estratégico · Descansos activos planificados · Instrucciones orales + escritas simultáneas · Tiempo extendido · Reducción de estímulos distractores · Sistema de automonitoreo conductual</div>
+      </div>
+      <div class="diag-card">
+        <div class="diag-name">TEA — Trastorno del Espectro Autista</div>
+        <div class="diag-dsm">DSM-5: F84.0 · Prevalencia: 1 cada 31 niños</div>
+        <div class="diag-estrategias">Anticipación de cambios y rutinas · Agendas visuales · Instrucciones literales y concretas · Reducción de ambigüedad en consignas · Espacios de desregulación · Trabajo cooperativo estructurado · Intereses específicos como anclaje curricular · Evaluación oral alternativa</div>
+      </div>
+      <div class="diag-card">
+        <div class="diag-name">Dislexia</div>
+        <div class="diag-dsm">DSM-5: F81.0 · Prevalencia: 7-15% población escolar</div>
+        <div class="diag-estrategias">Texto con tipografía OpenDyslexic o sans-serif · Mayor espaciado entre líneas · Lectura en voz alta por el docente · Materiales en audio · Tiempo extendido en evaluaciones escritas · Evaluación oral alternativa · No penalizar la ortografía en contenidos · Subrayado por colores del texto</div>
+      </div>
+      <div class="diag-card">
+        <div class="diag-name">Discalculia</div>
+        <div class="diag-dsm">DSM-5: F81.2 · Trastorno Específico del Aprendizaje (matemáticas)</div>
+        <div class="diag-estrategias">Uso de material concreto y manipulable · Calculadora permitida · Tablas de multiplicar como apoyo permanente · Problemas contextualizados en situaciones reales · Reducción de cantidad de ejercicios · Énfasis en comprensión del proceso sobre el resultado · Evaluación de razonamiento, no de cálculo</div>
+      </div>
+      <div class="diag-card">
+        <div class="diag-name">Baja memoria de trabajo</div>
+        <div class="diag-dsm">Perfil cognitivo transversal (TDAH, TEA, DI leve)</div>
+        <div class="diag-estrategias">Listas de cotejo de pasos procedimentales · Apoyos visuales permanentes en el aula · No borrar el pizarrón hasta que todos terminen · Repetición sistemática de consignas · Resúmenes escritos de lo trabajado en clase · Carpeta de referencia con definiciones clave · Consignas de no más de 2 pasos</div>
+      </div>
+    </div>
+
+    <div class="tip"><strong>💡 Importante:</strong> Estas estrategias son puntos de partida. El Módulo 3 las adapta al perfil funcional específico del alumno usando el diagnóstico detallado y el documento clínico adjunto. Dos alumnos con el mismo diagnóstico pueden necesitar estrategias muy diferentes.</div>
+  </div>
+
+  <!-- 08 HISTORIAL -->
+  <div class="seccion" id="historial">
+    <div class="sec-num">08 · Historial y exportación</div>
+    <div class="sec-titulo">Trazabilidad completa<br><em>por legajo</em></div>
+    <div class="sec-lead">Cada documento generado puede guardarse en el historial del legajo. El historial registra el tipo de documento, la fecha, el motor de IA usado y el texto completo. Permite exportar el legajo completo con todo su historial en un solo archivo.</div>
+
+    <div class="sec-h4">Guardar un documento generado</div>
+    <div class="sec-p">Después de generar un documento, aparecen tres botones: <strong>Copiar</strong> (al portapapeles), <strong>Descargar .txt</strong> (archivo individual) y <strong>Guardar</strong> (lo incorpora al historial del legajo). Solo los documentos guardados con el botón "Guardar" quedan en el historial.</div>
+
+    <div class="sec-h4">Acceder al historial</div>
+    <div class="sec-p">La pestaña <strong>"Historial"</strong> en el panel principal muestra todos los documentos guardados para el legajo seleccionado, ordenados del más reciente al más antiguo. Podés ver cada documento, copiarlo, descargarlo o eliminarlo.</div>
+
+    <div class="sec-h4">Exportar el legajo completo</div>
+    <div class="sec-p">El botón <strong>"⬇ Exportar legajo completo"</strong> descarga un archivo .txt con todos los datos del alumno y el texto completo de cada documento guardado. Usá esta función como respaldo regular de tus legajos.</div>
+
+    <div class="warn-box"><strong>⚠ Respaldo obligatorio:</strong> Los datos están en el localStorage de tu navegador. Si limpiás el caché, reinstalás el sistema operativo o cambiás de dispositivo, los legajos se pierden. <strong>Exportá tus legajos al menos una vez por semana.</strong></div>
+  </div>
+
+  <!-- 09 PRIVACIDAD -->
+  <div class="seccion" id="privacidad">
+    <div class="sec-num">09 · Privacidad de datos</div>
+    <div class="sec-titulo">Los datos del alumno<br><em>no salen de tu dispositivo</em></div>
+    <div class="sec-lead">La arquitectura de la herramienta fue diseñada para cumplir con los requisitos de la Ley 25.326 de Protección de Datos Personales y el secreto profesional. Los datos sensibles de salud nunca se transmiten a servidores externos.</div>
+
+    <table class="tabla">
+      <tr><th>Dato</th><th>Dónde se guarda</th><th>Sale del dispositivo</th></tr>
+      <tr><td>Datos del alumno (nombre, DNI, diagnóstico)</td><td>localStorage del navegador</td><td>No</td></tr>
+      <tr><td>Perfil funcional</td><td>localStorage del navegador</td><td>No</td></tr>
+      <tr><td>Documentos clínicos adjuntos</td><td>Solo en memoria RAM durante la sesión</td><td>No</td></tr>
+      <tr><td>Historial de documentos generados</td><td>localStorage del navegador</td><td>No</td></tr>
+      <tr><td>API Keys de IA</td><td>localStorage del navegador</td><td>Solo al proveedor de IA (Google/Anthropic/OpenAI)</td></tr>
+      <tr><td>Email y clave de acceso BRB</td><td>Supabase (solo auth)</td><td>Sí — solo para validar tu licencia</td></tr>
+    </table>
+
+    <div class="sec-h3">El prompt y la identidad del alumno</div>
+    <div class="sec-p">Cuando la herramienta genera un documento, el nombre y DNI del alumno <strong>no se incluyen en el prompt</strong>. Se reemplazan automáticamente por [ESTUDIANTE]. El diagnóstico, perfil funcional y datos del legajo sí se incluyen porque son necesarios para la personalización del contenido.</div>
+
+    <div class="info">Cumplimiento normativo: Ley 25.326 (Protección de Datos Personales) · Art. 7 (datos sensibles de salud) · Art. 8 (datos relativos a la salud en el marco del secreto profesional) · Art. 9 (medidas de seguridad).</div>
+  </div>
+
+  <!-- 10 NORMATIVA -->
+  <div class="seccion" id="normativa">
+    <div class="sec-num">10 · Base normativa</div>
+    <div class="sec-titulo">El marco legal<br><em>integrado en cada documento</em></div>
+    <div class="sec-lead">Todos los documentos generados tienen como base el marco normativo nacional vigente. Los prompts incluyen referencias específicas a los artículos y anexos relevantes para cada tipo de documento.</div>
+
+    <table class="tabla">
+      <tr><th>Normativa</th><th>Alcance</th><th>Aplicación en la herramienta</th></tr>
+      <tr><td>Res. CFE 311/16</td><td>Nacional</td><td>Estructura del PPI, Configuraciones de Apoyo, criterios de promoción y certificación. Base de todos los módulos.</td></tr>
+      <tr><td>Ley 26.206 — LEN</td><td>Nacional</td><td>Derecho a la educación inclusiva. Art. 11: garantías del sistema educativo.</td></tr>
+      <tr><td>Convención sobre Derechos de Personas con Discapacidad (ONU)</td><td>Internacional / Nacional</td><td>Art. 24: derecho a educación inclusiva sin discriminación. Marco de referencia para ajustes razonables.</td></tr>
+      <tr><td>Ley 25.326 — Protección de Datos Personales</td><td>Nacional</td><td>Tratamiento de datos sensibles de salud. Arquitectura de privacidad de la herramienta.</td></tr>
+      <tr><td>DUA — Diseño Universal para el Aprendizaje (CAST 2018)</td><td>Internacional</td><td>Módulo M5 (Planificación DUA) y Módulo M3 (estrategias de aula).</td></tr>
+      <tr><td>DSM-5 / CIE-11</td><td>Internacional</td><td>Clasificación diagnóstica para el Módulo M3 (Traductor Clínico-Pedagógico).</td></tr>
+    </table>
+
+    <div class="tip"><strong>💡 Variación jurisdiccional:</strong> La Res. CFE 311/16 es el piso nacional, pero cada provincia tiene su propia reglamentación. En Chubut rigen además la Res. ME 29/2024 y el Decreto 146/08. Los documentos generados pueden requerir ajustes según la jurisdicción. El profesional debe verificar el formato exigido por su supervisión.</div>
+  </div>
+
+  <!-- 11 RESPONSABILIDAD -->
+  <div class="seccion" id="responsabilidad">
+    <div class="sec-num">11 · Responsabilidad profesional</div>
+    <div class="sec-titulo">La herramienta asiste,<br><em>el profesional decide</em></div>
+    <div class="sec-lead">Este principio aparece en cada pantalla de generación y en cada documento producido. No es un formalismo — es la condición técnica y ética fundamental del uso de esta herramienta.</div>
+
+    <div class="warn-box">
+      <strong>AVISO OBLIGATORIO EN TODOS LOS DOCUMENTOS GENERADOS:</strong><br><br>
+      "BORRADOR ORIENTATIVO — Este documento fue generado con asistencia de inteligencia artificial como texto base para revisión técnica. El profesional interviniente (MAI/Psicopedagogo/Fonoaudiólogo) es el único y exclusivo responsable de su validación, adecuación al caso específico y firma. La firma de este documento implica responsabilidad profesional plena sobre su contenido. Este texto no representa diagnóstico clínico ni prescripción pedagógica definitiva."
+    </div>
+
+    <div class="sec-h3">Por qué este principio es irrenunciable</div>
+    <ul class="lista">
+      <li><strong>Dos alumnos con el mismo diagnóstico pueden requerir estrategias opuestas.</strong> La IA genera a partir del perfil funcional que vos ingresás — si ese perfil está incompleto, el documento también lo estará.</li>
+      <li><strong>Los documentos del PPI tienen validez legal.</strong> Habilitan la certificación del nivel educativo. Un error en las metas o configuraciones tiene consecuencias reales para la trayectoria del alumno.</li>
+      <li><strong>Los informes para obras sociales tienen implicancias de cobertura.</strong> Un informe de avance incorrecto puede afectar la renovación del beneficio terapéutico del alumno.</li>
+      <li><strong>La IA no conoce el contexto institucional.</strong> Las relaciones con el equipo docente, la dinámica del grupo y las condiciones edilicias son factores que solo el profesional puede integrar.</li>
+    </ul>
+
+    <div class="sec-h3">Checklist previo a firmar un documento generado</div>
+    <ul class="lista">
+      <li>¿Los datos del alumno (institución, año, diagnóstico) son correctos?</li>
+      <li>¿Las estrategias propuestas son viables en el contexto real del aula?</li>
+      <li>¿Las metas del PPI son alcanzables para este alumno en este período?</li>
+      <li>¿El lenguaje es apropiado para el destinatario del documento?</li>
+      <li>¿Se verificó que los recursos mencionados están disponibles?</li>
+      <li>¿El equipo docente fue consultado antes de la firma?</li>
+    </ul>
+  </div>
+
+  <!-- 12 FAQ -->
+  <div class="seccion" id="faq">
+    <div class="sec-num">12 · Preguntas frecuentes</div>
+    <div class="sec-titulo">Dudas<br><em>más comunes</em></div>
+
+    <div class="sec-h4">¿Los datos del alumno se guardan en la nube?</div>
+    <div class="sec-p">No. Los legajos, diagnósticos, perfiles funcionales y documentos clínicos adjuntos se guardan únicamente en el localStorage de tu navegador. Solo tu email y clave de acceso están en Supabase para verificar la licencia.</div>
+
+    <div class="sec-h4">¿Qué pasa si cierro el navegador mientras genera?</div>
+    <div class="sec-p">La generación se interrumpe. El documento no se guarda automáticamente — solo se guarda si hacés clic en el botón "Guardar" una vez que el texto aparece en pantalla. Los legajos y el historial previo no se ven afectados.</div>
+
+    <div class="sec-h4">¿Puedo usar la herramienta sin API Key de IA?</div>
+    <div class="sec-p">No. La generación de documentos requiere al menos un motor de IA configurado. Podés crear y gestionar legajos sin key, pero no podés generar documentos.</div>
+
+    <div class="sec-h4">¿El nombre del alumno aparece en el prompt que se envía a la IA?</div>
+    <div class="sec-p">No. El nombre y DNI se reemplazan automáticamente por [ESTUDIANTE] antes de enviar el prompt. El diagnóstico, perfil funcional y datos escolares sí se incluyen porque son necesarios para la personalización.</div>
+
+    <div class="sec-h4">¿Puedo usar Claude o GPT-4 en lugar de Gemini?</div>
+    <div class="sec-p">Sí. Podés configurar los tres motores y cambiar entre ellos en cada generación. Claude y GPT-4 requieren créditos prepagos en sus respectivas plataformas.</div>
+
+    <div class="sec-h4">¿Los documentos generados sirven directamente para presentar?</div>
+    <div class="sec-p">No sin revisión. Son borradores orientativos que requieren validación técnica, edición y firma del profesional responsable. Presentar texto generado por IA sin revisión puede tener consecuencias legales para el profesional firmante.</div>
+
+    <div class="sec-h4">¿Puedo tener varios alumnos cargados?</div>
+    <div class="sec-p">Sí. No hay límite de legajos por licencia. La búsqueda en el sidebar te permite encontrar cualquier alumno por nombre, apellido o número de legajo.</div>
+
+    <div class="sec-h4">¿Qué hago si el PDF adjunto no se procesa?</div>
+    <div class="sec-p">Verificá que el PDF tenga texto seleccionable (no sea un escaneado). Si es un escaneado, usá un conversor OCR online para extraer el texto y pegalo en el campo de perfil funcional del legajo.</div>
+
+    <div class="sec-h4">¿Cómo cambio el motor de IA para un documento específico?</div>
+    <div class="sec-p">En el panel de generación, arriba de los módulos, aparece el selector de motor de IA. Hacé clic en el motor que querés usar — el cambio es inmediato para la próxima generación.</div>
+  </div>
+
+  <!-- 13 CONTACTO -->
+  <div class="seccion" id="contacto">
+    <div class="sec-num">13 · Contacto y soporte</div>
+    <div class="sec-titulo">Soporte<br><em>directo</em></div>
+    <div class="sec-lead">El soporte es gestionado directamente por Boris Rodríguez Barrera. Respondemos dentro de las 24 horas hábiles.</div>
+
+    <table class="tabla">
+      <tr><th>Motivo</th><th>Contacto</th><th>Tiempo de respuesta</th></tr>
+      <tr><td>Problema técnico con la herramienta</td><td><a href="mailto:bbbarrera1986@gmail.com?subject=Problema%20técnico%20BRB%20Inclusión&body=Descripción%20del%20problema%3A%0A%0ANavegador%20utilizado%3A%0APantalla%20donde%20ocurre%3A%0AMensaje%20de%20error%3A" style="color:var(--verde-cl)">bbbarrera1986@gmail.com</a></td><td>Menos de 48 hs</td></tr>
+      <tr><td>Cambio de dispositivo</td><td><a href="mailto:bbbarrera1986@gmail.com?subject=Cambio%20de%20dispositivo%20BRB%20Inclusión&body=Email%20de%20la%20cuenta%3A%0AMotivo%20del%20cambio%3A" style="color:var(--verde-cl)">bbbarrera1986@gmail.com</a></td><td>Menos de 24 hs</td></tr>
+      <tr><td>Renovación de licencia</td><td><a href="mailto:bbbarrera1986@gmail.com?subject=Renovación%20licencia%20BRB%20Inclusión" style="color:var(--verde-cl)">bbbarrera1986@gmail.com</a></td><td>Menos de 24 hs</td></tr>
+      <tr><td>Consulta sobre uso o módulos</td><td><a href="mailto:bbbarrera1986@gmail.com?subject=Consulta%20BRB%20Inclusión" style="color:var(--verde-cl)">bbbarrera1986@gmail.com</a></td><td>Menos de 48 hs</td></tr>
+    </table>
+
+    <div class="contacto-box">
+      <div class="contacto-titulo">¿Necesitás<br><em>ayuda?</em></div>
+      <div class="contacto-desc">Escribinos directamente a Gmail. Sin intermediarios, sin formularios. Respondemos en horario de Argentina (GMT-3), lunes a viernes.</div>
+      <a href="mailto:bbbarrera1986@gmail.com?subject=Consulta%20BRB%20Inclusión%20Neuro-Estrategias" class="btn-contacto">Escribir por Gmail →</a>
+    </div>
+
+    <div style="margin-top:2.5rem;padding-top:2rem;border-top:1px solid var(--gris-b)">
+      <div style="font-family:var(--fd);font-size:1.05rem;font-weight:600;color:var(--crema);margin-bottom:.2rem">Boris Rodríguez Barrera</div>
+      <div style="font-family:var(--fm);font-size:.55rem;color:var(--verde-cl);letter-spacing:.1em;margin-bottom:.65rem;opacity:.7">ORCID 0009-0004-6583-6439</div>
+      <div style="font-size:.8rem;color:var(--gris-cl);line-height:1.8">
+        Especialista en Gestión de Calidad, Procesos Industriales y Microbiología<br>
+        Docente — Escuela Municipal de Pesca "Juan Demonte" N.° 2701<br>
+        Puerto Madryn, Chubut, Argentina<br><br>
+        <span style="font-family:var(--fm);font-size:.58rem;color:#1e281e">BRB Estrategia &amp; Procesos · Soberanía Técnica Ediciones · 7.ª herramienta del ecosistema BRB IA</span>
+      </div>
+    </div>
+  </div>
+
+</div><!-- fin contenido -->
+
+<script>
+const secciones = document.querySelectorAll('.seccion[id]');
+const links = document.querySelectorAll('.sb-link');
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      links.forEach(l => l.classList.remove('activo'));
+      const t = document.querySelector(`.sb-link[href="#${entry.target.id}"]`);
+      if (t) t.classList.add('activo');
+    }
+  });
+}, { rootMargin: '-20% 0px -70% 0px' });
+secciones.forEach(s => { if (s.id) observer.observe(s); });
+</script>
+</body>
+</html>
