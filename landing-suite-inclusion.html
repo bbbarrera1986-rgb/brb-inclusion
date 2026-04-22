@@ -1,0 +1,1303 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BRB Educación Inclusiva — Suite Tutoría + Inclusión con IA</title>
+<meta name="description" content="Plataforma BRB de acompañamiento educativo con IA. Generador Tutoría POT y Generador Inclusión PPI/DUA para la escuela secundaria argentina.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@400;500&family=Syne:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --violeta:#4A1A6B; --violeta-osc:#2E0F45; --violeta-cl:#7B3FA0;
+  --verde:#0d4a2f; --verde-med:#1a6b42; --verde-cl:#2d8a57;
+  --acento:#C9860A; --acento-cl:#E8A020;
+  --blanco:#F7F4F0; --gris-cl:#EDE8E3; --gris-med:#B8AFA8;
+  --gris-txt:#4A4540; --negro:#1A1210; --fondo:#060908;
+  --card:#0e1610; --card2:#131e15;
+  --suite:#C8A84B; --suite-dim:#8a7233;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{font-family:'Syne',sans-serif;background:var(--fondo);color:var(--blanco);overflow-x:hidden;}
+
+/* ── NAV ── */
+nav{position:fixed;top:0;left:0;right:0;z-index:1000;padding:0 5%;background:rgba(6,9,8,.92);backdrop-filter:blur(12px);border-bottom:1px solid rgba(45,138,87,.15);display:flex;align-items:center;justify-content:space-between;height:62px;}
+.nav-brand{font-family:'DM Mono',monospace;font-size:12px;font-weight:500;color:var(--suite);letter-spacing:.05em;}
+.nav-links{display:flex;align-items:center;gap:1.5rem;}
+.nav-links a{font-family:'Syne',sans-serif;font-size:12px;font-weight:600;color:var(--gris-med);text-decoration:none;transition:color .2s;}
+.nav-links a:hover{color:var(--suite);}
+.nav-cta{background:var(--suite);color:var(--negro)!important;padding:.45rem 1.1rem;font-weight:700!important;font-size:11px!important;clip-path:polygon(6px 0%,100% 0%,calc(100% - 6px) 100%,0% 100%);}
+
+/* ── BUTTONS ── */
+.btn-p{display:inline-flex;align-items:center;gap:.5rem;background:var(--verde-cl);color:white;border:none;font-family:'Syne',sans-serif;font-size:13px;font-weight:700;padding:14px 28px;cursor:pointer;text-decoration:none;transition:all .2s;clip-path:polygon(0 0,calc(100% - 10px) 0,100% 10px,100% 100%,10px 100%,0 calc(100% - 10px));}
+.btn-p:hover{background:var(--verde-med);transform:translateY(-1px);}
+.btn-v{display:inline-flex;align-items:center;gap:.5rem;background:rgba(74,26,107,.3);color:var(--blanco);border:1px solid rgba(123,63,160,.4);font-family:'Syne',sans-serif;font-size:13px;font-weight:600;padding:13px 26px;cursor:pointer;text-decoration:none;transition:all .2s;}
+.btn-v:hover{border-color:var(--violeta-cl);background:rgba(74,26,107,.5);}
+.btn-suite{display:inline-flex;align-items:center;gap:.5rem;background:var(--suite);color:var(--negro);border:none;font-family:'Syne',sans-serif;font-size:13px;font-weight:700;padding:14px 28px;cursor:pointer;text-decoration:none;transition:all .2s;clip-path:polygon(0 0,calc(100% - 10px) 0,100% 10px,100% 100%,10px 100%,0 calc(100% - 10px));}
+.btn-suite:hover{background:var(--acento-cl);transform:translateY(-1px);}
+
+/* ── SECTIONS ── */
+section{padding:100px 5%;}
+.inner{max-width:1300px;margin:0 auto;}
+.sec-tag{font-family:'DM Mono',monospace;font-size:11px;font-weight:500;letter-spacing:.2em;text-transform:uppercase;color:var(--suite);margin-bottom:1.25rem;display:flex;align-items:center;gap:.75rem;}
+.sec-tag::before{content:'';display:block;width:28px;height:1px;background:var(--suite-dim);}
+.sec-title{font-family:'DM Serif Display',serif;font-size:clamp(2rem,4vw,3rem);line-height:1.1;margin-bottom:1.25rem;}
+.sec-title em{font-style:italic;color:var(--suite);}
+.sec-lead{font-size:16px;color:var(--gris-med);line-height:1.75;max-width:680px;margin-bottom:2.5rem;}
+
+/* ── HERO ── */
+#hero{padding-top:140px;padding-bottom:100px;position:relative;overflow:hidden;min-height:100vh;display:flex;align-items:center;}
+#hero::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 70% 60% at 30% 40%,rgba(13,74,47,.6) 0%,transparent 60%),radial-gradient(ellipse 50% 50% at 80% 30%,rgba(74,26,107,.4) 0%,transparent 60%);pointer-events:none;}
+#hero::after{content:'';position:absolute;inset:0;background-image:linear-gradient(rgba(45,138,87,.05) 1px,transparent 1px),linear-gradient(90deg,rgba(45,138,87,.05) 1px,transparent 1px);background-size:60px 60px;pointer-events:none;}
+.hero-inner{max-width:1300px;margin:0 auto;padding:0 5%;display:grid;grid-template-columns:1fr 1fr;gap:5rem;align-items:center;position:relative;z-index:1;width:100%;}
+.hero-eyebrow{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--verde-cl);margin-bottom:1.5rem;display:flex;align-items:center;gap:.6rem;}
+.hero-eyebrow::before{content:'';width:24px;height:1px;background:var(--verde-cl);}
+.hero-title{font-family:'DM Serif Display',serif;font-size:clamp(2.5rem,5vw,4rem);line-height:1.05;margin-bottom:1.5rem;}
+.hero-title em{font-style:italic;color:var(--suite);}
+.hero-desc{font-size:17px;color:var(--gris-med);line-height:1.75;margin-bottom:2.5rem;max-width:520px;}
+.hero-btns{display:flex;gap:1rem;flex-wrap:wrap;margin-bottom:3rem;}
+.hero-stats{display:flex;gap:2.5rem;padding-top:2rem;border-top:1px solid rgba(200,168,75,.15);}
+.hstat-num{font-family:'DM Serif Display',serif;font-size:2.2rem;color:var(--suite);line-height:1;}
+.hstat-lbl{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:.12em;text-transform:uppercase;color:var(--gris-med);margin-top:.2rem;}
+
+/* HERO MOCKUP */
+.hero-mockup{background:var(--card);border:1px solid rgba(45,138,87,.25);box-shadow:0 40px 80px rgba(0,0,0,.6);overflow:hidden;}
+.mock-bar{background:#080c08;border-bottom:1px solid rgba(45,138,87,.15);padding:.7rem 1rem;display:flex;align-items:center;gap:.75rem;}
+.mock-dots{display:flex;gap:.35rem;}
+.mock-dot{width:8px;height:8px;border-radius:50%;}
+.mock-tab-bar{display:flex;background:#0a0f0a;border-bottom:1px solid rgba(45,138,87,.1);}
+.mock-tab{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:.12em;padding:.6rem 1rem;color:var(--gris-med);cursor:default;border-bottom:2px solid transparent;transition:all .3s;}
+.mock-tab.on{color:var(--suite);border-bottom-color:var(--suite);}
+.mock-body{padding:1.25rem;}
+.mock-tag{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:.15em;color:var(--verde-cl);margin-bottom:.4rem;}
+.mock-nombre{font-family:'DM Serif Display',serif;font-size:1.3rem;color:var(--blanco);margin-bottom:.3rem;}
+.mock-meta{font-family:'DM Mono',monospace;font-size:9px;color:var(--gris-med);margin-bottom:.8rem;}
+.mock-chips{display:flex;flex-wrap:wrap;gap:.35rem;margin-bottom:1rem;}
+.mock-chip{font-family:'DM Mono',monospace;font-size:8px;padding:.2rem .5rem;border-radius:2px;}
+.mock-chip-v{background:rgba(74,26,107,.4);color:#c9a0dc;}
+.mock-chip-g{background:rgba(45,138,87,.25);color:var(--verde-cl);}
+.mock-chip-ok{background:rgba(40,202,65,.15);color:#28ca41;}
+.mock-modules{display:grid;grid-template-columns:1fr 1fr;gap:.4rem;margin-top:.75rem;}
+.mock-mod{background:#0d120d;border:1px solid rgba(45,138,87,.15);padding:.5rem .65rem;font-family:'DM Mono',monospace;font-size:8px;color:var(--gris-med);}
+.mock-mod-icon{font-size:.9rem;margin-bottom:.2rem;}
+
+/* ── PROPUESTA DE VALOR ── */
+.valor-grid{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;margin-top:3rem;}
+.valor-card{background:var(--card);border:1px solid rgba(45,138,87,.15);padding:2rem;position:relative;overflow:hidden;}
+.valor-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;}
+.valor-card.tutor::before{background:linear-gradient(90deg,var(--violeta-cl),transparent);}
+.valor-card.inclusion::before{background:linear-gradient(90deg,var(--verde-cl),transparent);}
+.valor-card.suite::before{background:linear-gradient(90deg,var(--suite),transparent);}
+.valor-num{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:.18em;text-transform:uppercase;margin-bottom:.75rem;}
+.valor-card.tutor .valor-num{color:var(--violeta-cl);}
+.valor-card.inclusion .valor-num{color:var(--verde-cl);}
+.valor-card.suite .valor-num{color:var(--suite);}
+.valor-title{font-family:'DM Serif Display',serif;font-size:1.4rem;color:var(--blanco);margin-bottom:.6rem;}
+.valor-desc{font-size:13px;color:var(--gris-med);line-height:1.7;}
+
+/* ── COMPARATIVA ── */
+.comp-wrapper{display:grid;grid-template-columns:1fr 1fr 1fr;gap:0;margin-top:3rem;border:1px solid rgba(200,168,75,.15);}
+.comp-col{padding:0;}
+.comp-header{padding:1.5rem;border-bottom:1px solid rgba(200,168,75,.1);display:flex;align-items:center;gap:.75rem;}
+.comp-header-icon{font-size:1.5rem;}
+.comp-header-title{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:.14em;text-transform:uppercase;}
+.comp-col:nth-child(1) .comp-header-title{color:var(--violeta-cl);}
+.comp-col:nth-child(2) .comp-header-title{color:var(--suite);}
+.comp-col:nth-child(3) .comp-header-title{color:var(--verde-cl);}
+.comp-row{padding:.85rem 1.25rem;border-bottom:1px solid rgba(255,255,255,.04);font-size:12px;color:var(--gris-med);line-height:1.5;min-height:60px;display:flex;align-items:center;}
+.comp-row.head{background:rgba(200,168,75,.04);font-family:'DM Mono',monospace;font-size:9px;letter-spacing:.12em;text-transform:uppercase;color:var(--suite);padding:.65rem 1.25rem;min-height:auto;}
+.comp-col:nth-child(2){border-left:1px solid rgba(200,168,75,.15);border-right:1px solid rgba(200,168,75,.15);}
+.comp-col:nth-child(2) .comp-row{color:var(--blanco);}
+.comp-check{color:var(--verde-cl);font-weight:700;margin-right:.4rem;}
+.comp-x{color:rgba(255,255,255,.2);margin-right:.4rem;}
+.comp-arrow{color:var(--suite);margin-right:.4rem;}
+
+/* ── SINERGIAS ── */
+.sinergia-flow{display:flex;align-items:stretch;gap:0;margin-top:3rem;}
+.sinergia-step{flex:1;background:var(--card);border:1px solid rgba(45,138,87,.15);padding:2rem;position:relative;}
+.sinergia-step+.sinergia-step{border-left:none;}
+.sinergia-step::after{content:'→';position:absolute;right:-14px;top:50%;transform:translateY(-50%);font-size:1.2rem;color:var(--suite);z-index:1;background:var(--fondo);padding:.2rem;}
+.sinergia-step:last-child::after{display:none;}
+.sinergia-num{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:.2em;text-transform:uppercase;margin-bottom:.6rem;}
+.sinergia-step:nth-child(1) .sinergia-num{color:var(--violeta-cl);}
+.sinergia-step:nth-child(2) .sinergia-num{color:var(--verde-cl);}
+.sinergia-step:nth-child(3) .sinergia-num{color:var(--suite);}
+.sinergia-step:nth-child(4) .sinergia-num{color:var(--violeta-cl);}
+.sinergia-icon{font-size:1.5rem;margin-bottom:.6rem;}
+.sinergia-title{font-family:'DM Serif Display',serif;font-size:1rem;color:var(--blanco);margin-bottom:.4rem;}
+.sinergia-desc{font-size:11px;color:var(--gris-med);line-height:1.6;}
+.sinergia-herramienta{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:.1em;margin-top:.5rem;padding:.25rem .5rem;display:inline-block;}
+.sinergia-step:nth-child(1) .sinergia-herramienta{background:rgba(74,26,107,.3);color:var(--violeta-cl);}
+.sinergia-step:nth-child(2) .sinergia-herramienta{background:rgba(45,138,87,.2);color:var(--verde-cl);}
+.sinergia-step:nth-child(3) .sinergia-herramienta{background:rgba(200,168,75,.1);color:var(--suite);}
+.sinergia-step:nth-child(4) .sinergia-herramienta{background:rgba(74,26,107,.3);color:var(--violeta-cl);}
+
+/* ── DEMO INTERACTIVO ── */
+.demo-interface{background:var(--card);border:1px solid rgba(45,138,87,.2);margin-top:3rem;box-shadow:0 40px 80px rgba(0,0,0,.5);}
+.demo-tab-bar{display:flex;background:#080c08;border-bottom:1px solid rgba(45,138,87,.12);overflow-x:auto;}
+.demo-tab{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:.12em;text-transform:uppercase;padding:13px 20px;cursor:pointer;color:var(--gris-med);border-bottom:2px solid transparent;transition:all .2s;white-space:nowrap;}
+.demo-tab.on{color:var(--suite);border-bottom-color:var(--suite);}
+.demo-tab:hover:not(.on){color:var(--blanco);}
+.demo-panel{display:none;padding:2.5rem;}
+.demo-panel.on{display:block;}
+
+/* Panel Tutoría */
+.tutor-demo-grid{display:grid;grid-template-columns:1fr 1fr;gap:2rem;}
+.td-legajo{background:#080c08;border:1px solid rgba(74,26,107,.25);padding:1.5rem;}
+.td-label{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:.15em;text-transform:uppercase;color:var(--violeta-cl);margin-bottom:.4rem;}
+.td-nombre{font-family:'DM Serif Display',serif;font-size:1.4rem;color:var(--blanco);margin-bottom:.3rem;}
+.td-meta{font-family:'DM Mono',monospace;font-size:9px;color:var(--gris-med);margin-bottom:1rem;}
+.td-interv{border-left:2px solid rgba(74,26,107,.4);padding-left:1rem;margin-bottom:.6rem;}
+.td-interv-fecha{font-family:'DM Mono',monospace;font-size:9px;color:var(--acento);margin-bottom:.2rem;}
+.td-interv-txt{font-size:12px;color:var(--gris-med);line-height:1.5;}
+.td-tools{display:flex;flex-direction:column;gap:.5rem;}
+.td-tool{background:var(--card2);border:1px solid rgba(74,26,107,.2);padding:.75rem 1rem;cursor:pointer;transition:all .2s;display:flex;align-items:center;gap:.6rem;}
+.td-tool:hover{border-color:rgba(123,63,160,.5);background:rgba(74,26,107,.15);}
+.td-tool.sel{border-color:var(--acento);background:rgba(201,134,10,.08);}
+.td-tool-icon{font-size:1rem;}
+.td-tool-name{font-size:12px;color:var(--blanco);font-weight:600;}
+.td-tool-desc{font-size:10px;color:var(--gris-med);margin-top:.1rem;}
+
+/* Panel Inclusión */
+.inc-demo-grid{display:grid;grid-template-columns:1fr 1fr;gap:2rem;}
+.inc-legajo{background:#080c08;border:1px solid rgba(45,138,87,.2);padding:1.5rem;}
+.inc-modules{display:grid;grid-template-columns:1fr 1fr;gap:.5rem;}
+.inc-mod{background:var(--card2);border:1px solid rgba(45,138,87,.15);padding:.75rem;cursor:pointer;transition:all .2s;}
+.inc-mod:hover{border-color:var(--verde-cl);}
+.inc-mod.sel{border-color:var(--suite);background:rgba(200,168,75,.05);}
+.inc-mod-icon{font-size:1rem;margin-bottom:.25rem;}
+.inc-mod-name{font-size:11px;color:var(--blanco);font-weight:600;line-height:1.3;}
+.inc-mod-norm{font-family:'DM Mono',monospace;font-size:8px;color:var(--verde-cl);margin-top:.2rem;}
+
+/* Panel IA Engines */
+.ia-engines-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;margin-bottom:2rem;}
+.ia-engine-card{background:var(--card2);border:1px solid rgba(255,255,255,.06);padding:1.5rem;}
+.ia-engine-name{font-family:'DM Mono',monospace;font-size:11px;letter-spacing:.12em;text-transform:uppercase;margin-bottom:.5rem;}
+.ia-engine-card:nth-child(1) .ia-engine-name{color:#4285f4;}
+.ia-engine-card:nth-child(2) .ia-engine-name{color:#cc785c;}
+.ia-engine-card:nth-child(3) .ia-engine-name{color:#10a37f;}
+.ia-engine-desc{font-size:12px;color:var(--gris-med);line-height:1.6;margin-bottom:1rem;}
+.ia-key-guide{background:#080808;border:1px solid rgba(255,255,255,.05);padding:.75rem;}
+.ia-key-step{font-size:10px;color:var(--gris-med);line-height:1.8;margin-bottom:.2rem;}
+.ia-key-step a{color:var(--suite);text-decoration:none;}
+.ia-key-step code{font-family:'DM Mono',monospace;font-size:9px;background:#111;padding:.1rem .3rem;color:var(--suite);}
+.ia-uso-badge{font-family:'DM Mono',monospace;font-size:9px;padding:.25rem .6rem;margin-top:.75rem;display:inline-block;}
+.ia-engine-card:nth-child(1) .ia-uso-badge{background:rgba(66,133,244,.1);color:#4285f4;border:1px solid rgba(66,133,244,.2);}
+.ia-engine-card:nth-child(2) .ia-uso-badge{background:rgba(204,120,92,.1);color:#cc785c;border:1px solid rgba(204,120,92,.2);}
+.ia-engine-card:nth-child(3) .ia-uso-badge{background:rgba(16,163,127,.1);color:#10a37f;border:1px solid rgba(16,163,127,.2);}
+
+/* Output simulado */
+.demo-output-area{background:#080808;border:1px solid rgba(45,138,87,.15);margin-top:1.5rem;}
+.demo-output-hdr{padding:.65rem 1rem;border-bottom:1px solid rgba(45,138,87,.1);display:flex;justify-content:space-between;align-items:center;background:#0a0f0a;}
+.demo-output-tag{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:.15em;text-transform:uppercase;color:var(--verde-cl);}
+.demo-output-body{padding:1.1rem;font-family:'DM Mono',monospace;font-size:11px;line-height:1.85;color:#8ab89a;min-height:180px;white-space:pre-wrap;}
+.demo-output-aviso{padding:.5rem 1rem;font-family:'DM Mono',monospace;font-size:9px;color:var(--acento);background:rgba(201,134,10,.06);border-top:1px solid rgba(201,134,10,.15);}
+.demo-select-btn{background:var(--verde-cl);color:white;border:none;font-family:'Syne',sans-serif;font-size:11px;font-weight:700;padding:10px 20px;cursor:pointer;margin-top:1rem;clip-path:polygon(6px 0%,100% 0%,calc(100% - 6px) 100%,0% 100%);transition:background .2s;letter-spacing:.05em;}
+.demo-select-btn:hover{background:var(--verde-med);}
+.demo-select-btn:disabled{opacity:.4;cursor:default;}
+.demo-nota{font-size:11px;color:var(--gris-med);margin-top:.5rem;display:flex;align-items:center;gap:.4rem;}
+
+/* ── NORMATIVA ── */
+.norma-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;margin-top:2.5rem;}
+.norma-card{background:var(--card);border:1px solid rgba(200,168,75,.1);border-top:2px solid rgba(200,168,75,.2);padding:1.5rem;}
+.norma-ref{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:.14em;text-transform:uppercase;color:var(--suite);margin-bottom:.5rem;}
+.norma-title{font-family:'DM Serif Display',serif;font-size:1rem;color:var(--blanco);margin-bottom:.4rem;}
+.norma-desc{font-size:11px;color:var(--gris-med);line-height:1.6;}
+.norma-tools{display:flex;flex-wrap:wrap;gap:.3rem;margin-top:.6rem;}
+.norma-tool{font-family:'DM Mono',monospace;font-size:8px;padding:.15rem .4rem;background:rgba(200,168,75,.08);border:1px solid rgba(200,168,75,.15);color:var(--suite);}
+
+/* ── PRIVACIDAD ── */
+.priv-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;margin-top:2.5rem;}
+.priv-card{background:var(--card);border:1px solid rgba(45,138,87,.15);padding:1.5rem;text-align:center;}
+.priv-icon{font-size:2rem;margin-bottom:.75rem;}
+.priv-title{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:.14em;text-transform:uppercase;color:var(--verde-cl);margin-bottom:.5rem;}
+.priv-desc{font-size:11px;color:var(--gris-med);line-height:1.6;}
+
+/* ── RESPONSABILIDAD ── */
+.resp-box{background:rgba(201,134,10,.05);border:1px solid rgba(201,134,10,.2);border-left:3px solid var(--acento);padding:2rem;margin-top:2.5rem;}
+.resp-box-title{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--acento);margin-bottom:1rem;}
+.resp-box-text{font-size:14px;color:var(--gris-cl);line-height:1.8;}
+.resp-checklist{display:grid;grid-template-columns:1fr 1fr;gap:.5rem;margin-top:1.5rem;}
+.resp-item{display:flex;align-items:flex-start;gap:.6rem;font-size:12px;color:var(--gris-med);line-height:1.5;}
+.resp-item::before{content:'→';color:var(--suite);flex-shrink:0;font-family:'DM Mono',monospace;}
+
+/* ── ECOSISTEMA ── */
+.eco-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;margin-top:2.5rem;}
+.eco-card{background:var(--card);border:1px solid rgba(255,255,255,.06);padding:1.25rem;transition:border-color .2s;}
+.eco-card:hover{border-color:rgba(200,168,75,.3);}
+.eco-card.current{border-color:var(--suite);background:rgba(200,168,75,.04);}
+.eco-num{font-family:'DM Mono',monospace;font-size:9px;color:var(--suite);letter-spacing:.14em;margin-bottom:.4rem;}
+.eco-name{font-family:'DM Serif Display',serif;font-size:.95rem;color:var(--blanco);margin-bottom:.3rem;line-height:1.3;}
+.eco-desc{font-size:10px;color:var(--gris-med);line-height:1.5;}
+.eco-tag{font-family:'DM Mono',monospace;font-size:8px;margin-top:.5rem;display:inline-block;padding:.2rem .4rem;}
+.eco-tag-new{background:rgba(200,168,75,.15);border:1px solid rgba(200,168,75,.3);color:var(--suite);}
+.eco-tag-v{background:rgba(74,26,107,.3);color:var(--violeta-cl);border:1px solid rgba(74,26,107,.4);}
+.eco-tag-g{background:rgba(45,138,87,.2);color:var(--verde-cl);border:1px solid rgba(45,138,87,.3);}
+
+/* ── CTA ── */
+.cta-section{padding:120px 5%;background:linear-gradient(135deg,rgba(13,74,47,.5) 0%,rgba(6,9,8,0) 50%,rgba(74,26,107,.3) 100%);text-align:center;border-top:1px solid rgba(200,168,75,.1);}
+.cta-title{font-family:'DM Serif Display',serif;font-size:clamp(2rem,4vw,3rem);margin-bottom:1.25rem;}
+.cta-title em{font-style:italic;color:var(--suite);}
+.cta-desc{font-size:16px;color:var(--gris-med);line-height:1.75;max-width:580px;margin:0 auto 3rem;}
+.cta-btns{display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;margin-bottom:2rem;}
+.cta-note{font-family:'DM Mono',monospace;font-size:10px;color:rgba(184,175,168,.4);letter-spacing:.08em;}
+.cta-note a{color:var(--suite-dim);text-decoration:none;}
+
+/* ── FOOTER ── */
+footer{background:#040606;border-top:1px solid rgba(45,138,87,.15);padding:70px 5% 40px;}
+.footer-inner{max-width:1300px;margin:0 auto;display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:4rem;margin-bottom:3rem;}
+.footer-brand{font-family:'DM Serif Display',serif;font-size:1.3rem;color:var(--blanco);margin-bottom:.25rem;}
+.footer-orcid{font-family:'DM Mono',monospace;font-size:9px;color:rgba(200,168,75,.5);letter-spacing:.1em;margin-bottom:.9rem;}
+.footer-txt{font-size:12px;color:var(--gris-med);line-height:1.7;margin-bottom:.9rem;}
+.footer-brands{display:flex;flex-direction:column;gap:.25rem;margin-top:.6rem;}
+.footer-brand-item{font-family:'DM Mono',monospace;font-size:9px;color:rgba(184,175,168,.35);letter-spacing:.06em;}
+.footer-col-title{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:.18em;text-transform:uppercase;color:var(--suite);margin-bottom:1.1rem;}
+.footer-link{display:block;font-size:12px;color:var(--gris-med);text-decoration:none;margin-bottom:.55rem;transition:color .2s;}
+.footer-link:hover{color:var(--suite);}
+.eco-footer-item{font-family:'DM Mono',monospace;font-size:9px;color:rgba(200,168,75,.4);margin-bottom:.35rem;padding-left:.75rem;position:relative;}
+.eco-footer-item::before{content:'→';position:absolute;left:0;color:rgba(45,138,87,.5);}
+.eco-footer-item.curr{color:var(--suite);}
+.footer-bottom{max-width:1300px;margin:0 auto;padding-top:2rem;border-top:1px solid rgba(45,138,87,.08);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem;}
+.footer-copy{font-family:'DM Mono',monospace;font-size:9px;color:rgba(184,175,168,.2);letter-spacing:.04em;}
+
+/* RESPONSIVO */
+@media(max-width:1000px){
+  .hero-inner{grid-template-columns:1fr;}.hero-mockup{display:none;}
+  .comp-wrapper{grid-template-columns:1fr;}.comp-col:nth-child(2){border-left:none;border-right:none;border-top:1px solid rgba(200,168,75,.15);border-bottom:1px solid rgba(200,168,75,.15);}
+  .sinergia-flow{flex-direction:column;}.sinergia-step::after{content:'↓';right:auto;left:50%;top:auto;bottom:-14px;transform:translateX(-50%);}
+  .valor-grid,.tutor-demo-grid,.inc-demo-grid,.ia-engines-grid{grid-template-columns:1fr;}
+  .norma-grid,.eco-grid{grid-template-columns:1fr 1fr;}
+  .priv-grid{grid-template-columns:1fr 1fr;}
+  .footer-inner{grid-template-columns:1fr 1fr;}
+  nav .nav-links{display:none;}
+  .resp-checklist{grid-template-columns:1fr;}
+}
+@media(max-width:600px){
+  section{padding:70px 5%;}
+  .norma-grid,.eco-grid,.priv-grid,.inc-modules{grid-template-columns:1fr;}
+  .footer-inner{grid-template-columns:1fr;}
+  .hero-stats{flex-wrap:wrap;gap:1.5rem;}
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-brand">BRB · Suite Educación Inclusiva</div>
+  <div class="nav-links">
+    <a href="#comparativa">Comparativa</a>
+    <a href="#sinergias">Sinergias</a>
+    <a href="#demo">Demo</a>
+    <a href="#normativa">Normativa</a>
+    <a href="#ecosistema">Ecosistema</a>
+    <a href="#contacto" class="nav-cta">Consultar licencias</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<header id="hero">
+  <div class="hero-inner">
+    <div>
+      <div class="hero-eyebrow">BRB Estrategia & Procesos · Soberanía Técnica Ediciones</div>
+      <h1 class="hero-title">
+        Tutoría e <em>Inclusión</em><br>con inteligencia<br>artificial
+      </h1>
+      <p class="hero-desc">Las dos plataformas que cierran el ciclo de acompañamiento al estudiante con necesidades educativas especiales — desde la detección hasta el PPI, las estrategias de aula y el informe para obras sociales.</p>
+      <div class="hero-btns">
+        <a href="#demo" class="btn-p">Ver demo interactivo →</a>
+        <a href="#comparativa" class="btn-v">Comparar plataformas</a>
+      </div>
+      <div class="hero-stats">
+        <div><div class="hstat-num">2</div><div class="hstat-lbl">Plataformas integradas</div></div>
+        <div><div class="hstat-num">12</div><div class="hstat-lbl">Módulos de generación IA</div></div>
+        <div><div class="hstat-num">3</div><div class="hstat-lbl">Motores IA disponibles</div></div>
+        <div><div class="hstat-num">100%</div><div class="hstat-lbl">Datos locales · Privacidad</div></div>
+      </div>
+    </div>
+    <div class="hero-mockup">
+      <div class="mock-bar">
+        <div class="mock-dots"><div class="mock-dot" style="background:#FF5F57"></div><div class="mock-dot" style="background:#FFBD2E"></div><div class="mock-dot" style="background:#28CA41"></div></div>
+        <div style="font-family:'DM Mono',monospace;font-size:9px;color:var(--gris-med);flex:1;text-align:center">BRB INCLUSIÓN · LEGAJO ACTIVO</div>
+      </div>
+      <div class="mock-tab-bar">
+        <div class="mock-tab on" id="ht1" onclick="heroTab(1)">TUTORÍA</div>
+        <div class="mock-tab" id="ht2" onclick="heroTab(2)">INCLUSIÓN</div>
+      </div>
+      <div class="mock-body" id="hero-panel-1">
+        <div class="mock-tag">LEGAJO N° 2026-007</div>
+        <div class="mock-nombre">González, Valentina R.</div>
+        <div class="mock-meta">4.° Año B · Técnica Industrial · Activa</div>
+        <div class="mock-chips">
+          <span class="mock-chip mock-chip-ok">● Activa</span>
+          <span class="mock-chip mock-chip-v">Asistencia irregular</span>
+          <span class="mock-chip mock-chip-v">Derivación docente</span>
+        </div>
+        <div style="font-family:'DM Mono',monospace;font-size:9px;color:var(--acento);margin-bottom:.5rem">⚡ Herramientas IA disponibles</div>
+        <div class="mock-modules">
+          <div class="mock-mod"><div class="mock-mod-icon">🗣️</div>Guía entrevista</div>
+          <div class="mock-mod"><div class="mock-mod-icon">👨‍👩‍👧</div>Contacto familia</div>
+          <div class="mock-mod"><div class="mock-mod-icon">📄</div>Informe institucional</div>
+          <div class="mock-mod"><div class="mock-mod-icon">📚</div>Estrategias estudio</div>
+        </div>
+      </div>
+      <div class="mock-body" id="hero-panel-2" style="display:none">
+        <div class="mock-tag">LEGAJO N° INC-2026-003</div>
+        <div class="mock-nombre">Méndez, Lucas A.</div>
+        <div class="mock-meta">TDAH + Dislexia · 2.° Año · Secundario</div>
+        <div class="mock-chips">
+          <span class="mock-chip mock-chip-g">CUD vigente</span>
+          <span class="mock-chip mock-chip-g">OSDE 310</span>
+          <span class="mock-chip mock-chip-ok">PPI activo</span>
+        </div>
+        <div style="font-family:'DM Mono',monospace;font-size:9px;color:var(--verde-cl);margin-bottom:.5rem">⚡ 6 Módulos de generación</div>
+        <div class="mock-modules">
+          <div class="mock-mod"><div class="mock-mod-icon">📋</div>PPI</div>
+          <div class="mock-mod"><div class="mock-mod-icon">🧩</div>Config. Apoyo</div>
+          <div class="mock-mod"><div class="mock-mod-icon">🔬</div>Traductor clínico</div>
+          <div class="mock-mod"><div class="mock-mod-icon">📊</div>Informe MAI</div>
+          <div class="mock-mod"><div class="mock-mod-icon">🎯</div>Planif. DUA</div>
+          <div class="mock-mod"><div class="mock-mod-icon">✅</div>Evaluación adapt.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- PROPUESTA DE VALOR -->
+<section style="padding-top:80px;padding-bottom:80px;border-bottom:1px solid rgba(200,168,75,.08)">
+  <div class="inner">
+    <div class="sec-tag">La suite completa</div>
+    <h2 class="sec-title">Dos plataformas. <em>Un ecosistema.</em></h2>
+    <p class="sec-lead">El tutor detecta. El MAI interviene. La suite BRB acompaña todo el proceso con documentación técnica rigurosa y base normativa integrada.</p>
+    <div class="valor-grid">
+      <div class="valor-card tutor">
+        <div class="valor-num">Generador 04 · Tutoría POT</div>
+        <div class="valor-title">El legajo que actúa, no solo registra</div>
+        <div class="valor-desc">Plataforma de gestión de tutoría escolar para el Profesor Orientador Tutor. Legajos estructurados, historial cronológico de intervenciones, guías de entrevista por objetivo, informes institucionales y contacto familiar generados con IA contextualizada al perfil del estudiante.<br><br>Marco normativo: Decreto 146/08 Chubut · Res. ME 29/2024 · Ley 26.206 · Res. CFE 93/09.</div>
+      </div>
+      <div class="valor-card inclusion">
+        <div class="valor-num">Generador 07 · Inclusión & Neuro-Estrategias</div>
+        <div class="valor-title">Del diagnóstico clínico a la estrategia de aula</div>
+        <div class="valor-desc">Plataforma especializada para MAI, psicopedagogos y fonoaudiólogos. Genera PPI completo, Configuraciones de Apoyo, traducción clínico-pedagógica (DSM-5 → aula), Informes de Avance MAI, Planificaciones DUA y Evaluaciones Adaptadas. Adjunto de historias clínicas con extracción local.<br><br>Marco normativo: Res. CFE 311/16 · Ley 26.206 · Convención DPDP · Ley 25.326.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- COMPARATIVA -->
+<section id="comparativa">
+  <div class="inner">
+    <div class="sec-tag">Comparativa técnica</div>
+    <h2 class="sec-title">¿Cuál necesito? <em>¿O las dos?</em></h2>
+    <p class="sec-lead">Cada plataforma resuelve una etapa diferente del acompañamiento educativo. En conjunto, cubren el ciclo completo — desde la primera señal de alerta hasta la certificación del nivel con PPI.</p>
+    <div class="comp-wrapper">
+      <div class="comp-col">
+        <div class="comp-header"><div class="comp-header-icon">🎓</div><div><div class="comp-header-title">Generador Tutoría POT</div><div style="font-size:11px;color:var(--gris-med);margin-top:.2rem">Para el Profesor Orientador Tutor</div></div></div>
+        <div class="comp-row head">Función principal</div>
+        <div class="comp-row"><span class="comp-check">✓</span> Gestión de trayectorias y acompañamiento socioemocional</div>
+        <div class="comp-row head">Documentos que genera</div>
+        <div class="comp-row"><span class="comp-check">✓</span> Guías de entrevista según objetivo (inicial, seguimiento, crisis, familiar)</div>
+        <div class="comp-row"><span class="comp-check">✓</span> Informes institucionales de trayectoria</div>
+        <div class="comp-row"><span class="comp-check">✓</span> Textos de contacto con familias</div>
+        <div class="comp-row"><span class="comp-check">✓</span> Planes de acompañamiento grupal</div>
+        <div class="comp-row"><span class="comp-x">—</span> PPI / Configuraciones de Apoyo</div>
+        <div class="comp-row head">Datos del alumno</div>
+        <div class="comp-row"><span class="comp-check">✓</span> Legajo pedagógico-socioemocional</div>
+        <div class="comp-row"><span class="comp-x">—</span> Datos clínicos/diagnósticos</div>
+        <div class="comp-row head">Normativa</div>
+        <div class="comp-row">Decreto 146/08 · Res. 29/2024 · LEN 26.206</div>
+      </div>
+      <div class="comp-col" style="background:rgba(200,168,75,.02)">
+        <div class="comp-header" style="border-bottom-color:rgba(200,168,75,.2)"><div class="comp-header-icon">🤝</div><div><div class="comp-header-title" style="color:var(--suite)">USADAS EN CONJUNTO</div><div style="font-size:11px;color:var(--gris-med);margin-top:.2rem">Suite completa de acompañamiento</div></div></div>
+        <div class="comp-row head">Cobertura total del ciclo</div>
+        <div class="comp-row"><span class="comp-arrow">→</span> El tutor detecta → deriva → el MAI interviene con el PPI</div>
+        <div class="comp-row"><span class="comp-arrow">→</span> Historial compartible entre actores institucionales</div>
+        <div class="comp-row"><span class="comp-arrow">→</span> El informe clínico del MAI informa la intervención del tutor</div>
+        <div class="comp-row"><span class="comp-arrow">→</span> La evaluación adaptada del MAI es aplicada por el docente que el tutor coordina</div>
+        <div class="comp-row"><span class="comp-arrow">→</span> Protección legal institucional en ambas dimensiones: trayectoria + inclusión</div>
+        <div class="comp-row head">Ventaja de la suite</div>
+        <div class="comp-row"><span class="comp-arrow">→</span> Ningún otro estudiante queda sin acompañamiento documentado</div>
+        <div class="comp-row head">Precio</div>
+        <div class="comp-row" style="color:var(--suite);font-weight:700">Descuento al contratar ambas licencias · Consultar</div>
+      </div>
+      <div class="comp-col">
+        <div class="comp-header"><div class="comp-header-icon">🔬</div><div><div class="comp-header-title">Generador Inclusión</div><div style="font-size:11px;color:var(--gris-med);margin-top:.2rem">Para MAI, Psicopedagogo, Fonoaudiólogo</div></div></div>
+        <div class="comp-row head">Función principal</div>
+        <div class="comp-row"><span class="comp-check">✓</span> Documentación técnica de inclusión educativa con base neuroeducativa</div>
+        <div class="comp-row head">Documentos que genera</div>
+        <div class="comp-row"><span class="comp-check">✓</span> PPI completo (Res. CFE 311/16 · Anexo II)</div>
+        <div class="comp-row"><span class="comp-check">✓</span> Configuraciones de Apoyo (Anexo III)</div>
+        <div class="comp-row"><span class="comp-check">✓</span> Informe de Avance MAI para obras sociales</div>
+        <div class="comp-row"><span class="comp-check">✓</span> Planificación DUA y Evaluación Adaptada</div>
+        <div class="comp-row"><span class="comp-check">✓</span> Traductor Clínico-Pedagógico (DSM-5 → aula)</div>
+        <div class="comp-row head">Datos del alumno</div>
+        <div class="comp-row"><span class="comp-check">✓</span> Legajo clínico-pedagógico completo</div>
+        <div class="comp-row"><span class="comp-check">✓</span> Adjunto de informes médicos (PDF/DOCX)</div>
+        <div class="comp-row head">Normativa</div>
+        <div class="comp-row">Res. CFE 311/16 · DPDP · Ley 25.326 · DSM-5</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SINERGIAS -->
+<section id="sinergias" style="background:var(--card);border-top:1px solid rgba(45,138,87,.1);border-bottom:1px solid rgba(45,138,87,.1)">
+  <div class="inner">
+    <div class="sec-tag">Flujo de trabajo integrado</div>
+    <h2 class="sec-title">Cómo se <em>complementan</em></h2>
+    <p class="sec-lead">Las plataformas no son paralelas — son secuenciales. El trabajo del tutor alimenta la intervención del MAI, y los documentos del MAI informan el seguimiento del tutor.</p>
+    <div class="sinergia-flow">
+      <div class="sinergia-step">
+        <div class="sinergia-num">01 · Detección</div>
+        <div class="sinergia-icon">🎓</div>
+        <div class="sinergia-title">El tutor detecta la señal</div>
+        <div class="sinergia-desc">Asistencia irregular, bajo rendimiento, conflicto con pares o derivación docente. Abre el legajo y registra la primera intervención.</div>
+        <span class="sinergia-herramienta">GENERADOR TUTORÍA</span>
+      </div>
+      <div class="sinergia-step">
+        <div class="sinergia-num">02 · Derivación</div>
+        <div class="sinergia-icon">🔄</div>
+        <div class="sinergia-title">Deriva al equipo de orientación</div>
+        <div class="sinergia-desc">El tutor genera el informe institucional de trayectoria y lo eleva a OATE o al MAI. El historial del legajo queda como respaldo.</div>
+        <span class="sinergia-herramienta">GENERADOR TUTORÍA</span>
+      </div>
+      <div class="sinergia-step">
+        <div class="sinergia-num">03 · Intervención</div>
+        <div class="sinergia-icon">🔬</div>
+        <div class="sinergia-title">El MAI genera el PPI</div>
+        <div class="sinergia-desc">Adjunta el informe clínico, completa el perfil funcional y genera PPI, Configuraciones de Apoyo y Estrategias DUA para el docente de grado.</div>
+        <span class="sinergia-herramienta">GENERADOR INCLUSIÓN</span>
+      </div>
+      <div class="sinergia-step">
+        <div class="sinergia-num">04 · Seguimiento</div>
+        <div class="sinergia-icon">📊</div>
+        <div class="sinergia-title">Ambos profesionales documentan la evolución</div>
+        <div class="sinergia-desc">El tutor registra el impacto en la trayectoria. El MAI genera Informes de Avance trimestrales para obras sociales y supervisión. Ciclo cerrado.</div>
+        <span class="sinergia-herramienta">AMBAS PLATAFORMAS</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- DEMO INTERACTIVO -->
+<section id="demo">
+  <div class="inner">
+    <div class="sec-tag">Demo interactivo</div>
+    <h2 class="sec-title">Explorá las plataformas. <em>Sin registro.</em></h2>
+    <p class="sec-lead">Navegá los módulos reales de ambas plataformas. La simulación muestra documentos de ejemplo — para generar con IA real necesitás tu propia API Key.</p>
+    <div class="demo-interface">
+      <div class="demo-tab-bar">
+        <div class="demo-tab on" onclick="demoTab('tutor',this)">TUTORÍA — LEGAJO Y HERRAMIENTAS</div>
+        <div class="demo-tab" onclick="demoTab('inclusion',this)">INCLUSIÓN — MÓDULOS PPI/DUA</div>
+        <div class="demo-tab" onclick="demoTab('ia',this)">MOTORES DE IA — CÓMO OBTENER TU KEY</div>
+      </div>
+
+      <!-- TUTORÍA -->
+      <div class="demo-panel on" id="dp-tutor">
+        <div class="tutor-demo-grid">
+          <div>
+            <div class="td-legajo">
+              <div class="td-label">LEGAJO N° 2026-007</div>
+              <div class="td-nombre">González, Valentina R.</div>
+              <div class="td-meta">4.° Año B · Técnica Industrial · Activa · 3 intervenciones</div>
+              <div style="margin-bottom:1rem">
+                <div style="font-family:'DM Mono',monospace;font-size:9px;color:var(--violeta-cl);margin-bottom:.5rem">HISTORIAL CRONOLÓGICO</div>
+                <div class="td-interv">
+                  <div class="td-interv-fecha">12 Mar 2026</div>
+                  <div class="td-interv-txt">Entrevista inicial. Detecta dificultad en materias técnicas y conflicto con grupo par.</div>
+                </div>
+                <div class="td-interv">
+                  <div class="td-interv-fecha">28 Mar 2026</div>
+                  <div class="td-interv-txt">Contacto con familia. La madre refiere situación de estrés en el hogar. Acuerdo de seguimiento quincenal.</div>
+                </div>
+                <div class="td-interv">
+                  <div class="td-interv-fecha">10 Abr 2026</div>
+                  <div class="td-interv-txt">Observación en clase. Mejora en participación. Asistencia recuperada en 80%.</div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="td-tools">
+            <div style="font-family:'DM Mono',monospace;font-size:9px;color:var(--acento);letter-spacing:.15em;margin-bottom:.75rem">HERRAMIENTAS IA — SELECCIONÁ UNA</div>
+            <div class="td-tool" onclick="selToolDemo('guia_entrevista',this)"><div class="td-tool-icon">🗣️</div><div><div class="td-tool-name">Guía de entrevista individual</div><div class="td-tool-desc">Preguntas y estructura según objetivo y perfil del estudiante</div></div></div>
+            <div class="td-tool" onclick="selToolDemo('contacto_familia',this)"><div class="td-tool-icon">👨‍👩‍👧</div><div><div class="td-tool-name">Texto para contacto con familia</div><div class="td-tool-desc">Comunicación institucional lista para leer o enviar</div></div></div>
+            <div class="td-tool" onclick="selToolDemo('informe_tray',this)"><div class="td-tool-icon">📄</div><div><div class="td-tool-name">Informe institucional de trayectoria</div><div class="td-tool-desc">Documento formal para elevar a directivos u OATE</div></div></div>
+            <div class="td-tool" onclick="selToolDemo('estrategias',this)"><div class="td-tool-icon">📚</div><div><div class="td-tool-name">Estrategias de estudio personalizadas</div><div class="td-tool-desc">Plan adaptado a las fortalezas y dificultades del legajo</div></div></div>
+            <div class="td-tool" onclick="selToolDemo('plan_grupal',this)"><div class="td-tool-icon">👥</div><div><div class="td-tool-name">Actividad de tutoría grupal</div><div class="td-tool-desc">Dinámica socioemocional para el grupo clase</div></div></div>
+            <button class="demo-select-btn" id="btn-demo-tutor" onclick="showDemoOutput('tutor')" disabled>Ver documento de ejemplo →</button>
+            <div class="demo-nota">ℹ️ La generación real requiere tu API Key — sin costo adicional</div>
+          </div>
+        </div>
+        <div id="demo-output-tutor" style="display:none" class="demo-output-area">
+          <div class="demo-output-hdr">
+            <span class="demo-output-tag" id="demo-tutor-tag">DOCUMENTO GENERADO</span>
+            <span style="font-family:'DM Mono',monospace;font-size:9px;color:var(--gris-med)">EJEMPLO DE SALIDA — BORRADOR ORIENTATIVO</span>
+          </div>
+          <div class="demo-output-body" id="demo-tutor-body"></div>
+          <div class="demo-output-aviso">⚠ BORRADOR ORIENTATIVO — Todo documento requiere revisión, validación y firma del profesional responsable antes de su uso institucional.</div>
+        </div>
+      </div>
+
+      <!-- INCLUSIÓN -->
+      <div class="demo-panel" id="dp-inclusion">
+        <div class="inc-demo-grid">
+          <div>
+            <div class="inc-legajo">
+              <div style="font-family:'DM Mono',monospace;font-size:9px;color:var(--verde-cl);letter-spacing:.15em;margin-bottom:.4rem">LEGAJO N° INC-2026-003</div>
+              <div style="font-family:'DM Serif Display',serif;font-size:1.3rem;color:var(--blanco);margin-bottom:.25rem">Méndez, Lucas A.</div>
+              <div style="font-family:'DM Mono',monospace;font-size:9px;color:var(--gris-med);margin-bottom:.8rem">2.° Año B · Secundario · MAI: Prof. García</div>
+              <div style="display:flex;flex-wrap:wrap;gap:.3rem;margin-bottom:1rem">
+                <span class="mock-chip mock-chip-g">TDAH moderado</span>
+                <span class="mock-chip mock-chip-g">Dislexia leve</span>
+                <span class="mock-chip mock-chip-ok">CUD vigente</span>
+              </div>
+              <div style="font-size:11px;color:var(--gris-med);line-height:1.6;margin-bottom:.75rem"><strong style="color:var(--crema)">Perfil funcional:</strong> Alta capacidad verbal. Dificultad en tareas de lectura prolongada y organización de la información escrita. Memoria de trabajo baja. Buen desempeño en actividades orales y de expresión plástica.</div>
+              <div style="font-family:'DM Mono',monospace;font-size:9px;color:var(--acento);padding:.4rem .6rem;background:rgba(201,134,10,.06);border:1px solid rgba(201,134,10,.15)">📎 Informe neuropsicológico adjunto · 8.450 caracteres extraídos</div>
+            </div>
+          </div>
+          <div>
+            <div style="font-family:'DM Mono',monospace;font-size:9px;color:var(--verde-cl);letter-spacing:.15em;margin-bottom:.75rem">SELECCIONÁ UN MÓDULO</div>
+            <div class="inc-modules">
+              <div class="inc-mod" onclick="selModDemo('ppi',this)"><div class="inc-mod-icon">📋</div><div class="inc-mod-name">PPI</div><div class="inc-mod-norm">Res. CFE 311/16 · Anexo II</div></div>
+              <div class="inc-mod" onclick="selModDemo('config',this)"><div class="inc-mod-icon">🧩</div><div class="inc-mod-name">Config. de Apoyo</div><div class="inc-mod-norm">Anexo III</div></div>
+              <div class="inc-mod" onclick="selModDemo('traductor',this)"><div class="inc-mod-icon">🔬</div><div class="inc-mod-name">Traductor Clínico</div><div class="inc-mod-norm">DSM-5 → Aula</div></div>
+              <div class="inc-mod" onclick="selModDemo('informe_mai',this)"><div class="inc-mod-icon">📊</div><div class="inc-mod-name">Informe MAI</div><div class="inc-mod-norm">Obras sociales</div></div>
+              <div class="inc-mod" onclick="selModDemo('dua',this)"><div class="inc-mod-icon">🎯</div><div class="inc-mod-name">Planif. DUA</div><div class="inc-mod-norm">CAST 2018</div></div>
+              <div class="inc-mod" onclick="selModDemo('eval_adapt',this)"><div class="inc-mod-icon">✅</div><div class="inc-mod-name">Evaluación Adapt.</div><div class="inc-mod-norm">Art. 48</div></div>
+            </div>
+            <button class="demo-select-btn" id="btn-demo-inc" onclick="showDemoOutput('inc')" style="margin-top:1rem" disabled>Ver documento de ejemplo →</button>
+            <div class="demo-nota" style="margin-top:.5rem">ℹ️ La generación real requiere tu API Key de Gemini, Claude o GPT-4</div>
+          </div>
+        </div>
+        <div id="demo-output-inc" style="display:none" class="demo-output-area">
+          <div class="demo-output-hdr">
+            <span class="demo-output-tag" id="demo-inc-tag">DOCUMENTO GENERADO</span>
+            <span style="font-family:'DM Mono',monospace;font-size:9px;color:var(--gris-med)">EJEMPLO DE SALIDA — BORRADOR ORIENTATIVO</span>
+          </div>
+          <div class="demo-output-body" id="demo-inc-body"></div>
+          <div class="demo-output-aviso">⚠ BORRADOR ORIENTATIVO — Todo documento requiere revisión, validación técnica y firma del profesional responsable antes de su uso institucional o clínico.</div>
+        </div>
+      </div>
+
+      <!-- MOTORES IA -->
+      <div class="demo-panel" id="dp-ia">
+        <div style="font-family:'DM Mono',monospace;font-size:10px;letter-spacing:.15em;color:var(--suite);margin-bottom:1.5rem">TRES MOTORES DE IA · ELEGÍS CUÁL USAR EN CADA DOCUMENTO</div>
+        <div class="ia-engines-grid">
+          <div class="ia-engine-card">
+            <div class="ia-engine-name">◉ Gemini 2.5 Flash</div>
+            <div class="ia-engine-desc">Motor de Google. El más recomendado para uso diario. Gratuito con hasta 250 solicitudes por día sin tarjeta de crédito. Ideal para PPI, Configuraciones de Apoyo y documentos de tutoría.</div>
+            <div class="ia-key-guide">
+              <div class="ia-key-step">1. Entrá a <a href="https://aistudio.google.com/apikey" target="_blank">aistudio.google.com/apikey</a></div>
+              <div class="ia-key-step">2. Iniciá sesión con tu cuenta Google</div>
+              <div class="ia-key-step">3. Clic en <code>Create API key</code> → seleccioná proyecto</div>
+              <div class="ia-key-step">4. Copiá la key: comienza con <code>AIzaSy...</code></div>
+            </div>
+            <span class="ia-uso-badge">GRATUITO · Recomendado</span>
+          </div>
+          <div class="ia-engine-card">
+            <div class="ia-engine-name">◉ Claude Sonnet</div>
+            <div class="ia-engine-desc">Motor de Anthropic. Alta calidad en redacción técnica y documentos normativos complejos. Recomendado para el Traductor Clínico-Pedagógico y textos de alta precisión neuroeducativa.</div>
+            <div class="ia-key-guide">
+              <div class="ia-key-step">1. Entrá a <a href="https://console.anthropic.com/keys" target="_blank">console.anthropic.com/keys</a></div>
+              <div class="ia-key-step">2. Creá una cuenta Anthropic</div>
+              <div class="ia-key-step">3. Clic en <code>Create Key</code></div>
+              <div class="ia-key-step">4. Copiá la key: comienza con <code>sk-ant-...</code></div>
+            </div>
+            <span class="ia-uso-badge">PAGO · Alta calidad clínica</span>
+          </div>
+          <div class="ia-engine-card">
+            <div class="ia-engine-name">◉ GPT-4o</div>
+            <div class="ia-engine-desc">Motor de OpenAI. Muy útil para informes de obras sociales y textos formales estructurados. Compatible con ambas plataformas de la suite BRB.</div>
+            <div class="ia-key-guide">
+              <div class="ia-key-step">1. Entrá a <a href="https://platform.openai.com/api-keys" target="_blank">platform.openai.com/api-keys</a></div>
+              <div class="ia-key-step">2. Creá una cuenta OpenAI</div>
+              <div class="ia-key-step">3. Clic en <code>Create new secret key</code></div>
+              <div class="ia-key-step">4. Copiá la key: comienza con <code>sk-...</code></div>
+            </div>
+            <span class="ia-uso-badge">PAGO · Informes formales</span>
+          </div>
+        </div>
+        <div style="background:rgba(45,138,87,.05);border:1px solid rgba(45,138,87,.15);border-left:3px solid var(--verde-cl);padding:1rem 1.25rem;margin-top:1rem;font-size:12px;color:var(--gris-med);line-height:1.7">
+          <strong style="color:var(--verde-cl)">Privacidad:</strong> Las API Keys se guardan únicamente en el localStorage de tu navegador. Nunca se envían a servidores de BRB. Las solicitudes van directamente desde tu dispositivo al proveedor elegido. Los datos de los alumnos tampoco salen de tu equipo.
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- NORMATIVA -->
+<section id="normativa" style="background:var(--card);border-top:1px solid rgba(200,168,75,.08)">
+  <div class="inner">
+    <div class="sec-tag">Marco normativo integrado</div>
+    <h2 class="sec-title">Las plataformas que conocen <em>la ley que te rige</em></h2>
+    <p class="sec-lead">Cada documento generado tiene base en la normativa específica aplicable. No es decoración — los prompts incluyen las referencias articuladas a los artículos y anexos correspondientes.</p>
+    <div class="norma-grid">
+      <div class="norma-card">
+        <div class="norma-ref">Res. CFE 311/16 · Nacional</div>
+        <div class="norma-title">Inclusión educativa de estudiantes con discapacidad</div>
+        <div class="norma-desc">Prohíbe rechazar la inscripción por discapacidad. Establece PPI, Configuraciones de Apoyo y criterios de promoción. Obligatoria en todo el territorio nacional.</div>
+        <div class="norma-tools"><span class="norma-tool">PPI</span><span class="norma-tool">Config. Apoyo</span><span class="norma-tool">Eval. Adaptada</span></div>
+      </div>
+      <div class="norma-card">
+        <div class="norma-ref">Decreto 146/08 · Chubut</div>
+        <div class="norma-title">Reglamento de Profesores Orientadores Tutores</div>
+        <div class="norma-desc">Marco provincial que regula la figura del POT. Define funciones, registro de intervenciones y articulación con OATE. Base del Generador Tutoría.</div>
+        <div class="norma-tools"><span class="norma-tool">Legajos</span><span class="norma-tool">Intervenciones</span><span class="norma-tool">Informes</span></div>
+      </div>
+      <div class="norma-card">
+        <div class="norma-ref">Ley 26.206 · Nacional</div>
+        <div class="norma-title">Ley de Educación Nacional</div>
+        <div class="norma-desc">Art. 11: garantías del sistema educativo. Art. 32: tutoría como dispositivo de acompañamiento. Obliga al Estado a garantizar trayectorias escolares integrales.</div>
+        <div class="norma-tools"><span class="norma-tool">Tutoría</span><span class="norma-tool">Inclusión</span></div>
+      </div>
+      <div class="norma-card">
+        <div class="norma-ref">Ley 25.326 · Nacional</div>
+        <div class="norma-title">Protección de Datos Personales</div>
+        <div class="norma-desc">Los datos sensibles de salud y menores nunca salen del dispositivo del profesional. Ambas plataformas usan localStorage por diseño, cumpliendo este marco.</div>
+        <div class="norma-tools"><span class="norma-tool">Privacidad</span><span class="norma-tool">Secreto profesional</span></div>
+      </div>
+      <div class="norma-card">
+        <div class="norma-ref">Convención DPDP · ONU · Ratificada Argentina</div>
+        <div class="norma-title">Derechos de Personas con Discapacidad</div>
+        <div class="norma-desc">Art. 24: educación inclusiva sin discriminación y con ajustes razonables. Marco internacional de referencia para el diseño de Configuraciones de Apoyo.</div>
+        <div class="norma-tools"><span class="norma-tool">Inclusión</span><span class="norma-tool">DUA</span></div>
+      </div>
+      <div class="norma-card">
+        <div class="norma-ref">Res. ME 29/2024 · Chubut · CFE 93/09</div>
+        <div class="norma-title">Trayectorias y organización pedagógica</div>
+        <div class="norma-desc">Marco vigente sobre seguimiento de trayectorias en Chubut y organización pedagógica del nivel secundario. Complementa el marco del POT en la provincia.</div>
+        <div class="norma-tools"><span class="norma-tool">Tutoría</span><span class="norma-tool">Trayectorias</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PRIVACIDAD -->
+<section>
+  <div class="inner">
+    <div class="sec-tag">Privacidad y ética profesional</div>
+    <h2 class="sec-title">Los datos del alumno<br><em>no salen de tu dispositivo</em></h2>
+    <p class="sec-lead">Ambas plataformas fueron diseñadas para cumplir con el secreto profesional y la Ley 25.326. La arquitectura de privacidad no es una opción — es la estructura base del sistema.</p>
+    <div class="priv-grid">
+      <div class="priv-card">
+        <div class="priv-icon">💾</div>
+        <div class="priv-title">Datos en tu dispositivo</div>
+        <div class="priv-desc">Legajos, diagnósticos, historias clínicas y documentos generados se guardan exclusivamente en el localStorage de tu navegador.</div>
+      </div>
+      <div class="priv-card">
+        <div class="priv-icon">🔒</div>
+        <div class="priv-title">Identidad protegida en el prompt</div>
+        <div class="priv-desc">El nombre y DNI del alumno se reemplazan por [ESTUDIANTE] antes de enviar cualquier solicitud a la IA. El diagnóstico y perfil sí se incluyen para personalizar.</div>
+      </div>
+      <div class="priv-card">
+        <div class="priv-icon">📎</div>
+        <div class="priv-title">Documentos clínicos locales</div>
+        <div class="priv-desc">Los informes médicos adjuntos se procesan íntegramente en el navegador. Nunca se transmiten a servidores de BRB ni a proveedores de IA.</div>
+      </div>
+      <div class="priv-card">
+        <div class="priv-icon">🔑</div>
+        <div class="priv-title">Un dispositivo por licencia</div>
+        <div class="priv-desc">Cada licencia está vinculada a un único dispositivo registrado al primer login. Control total sobre quién accede y desde dónde.</div>
+      </div>
+    </div>
+
+    <!-- RESPONSABILIDAD -->
+    <div class="resp-box">
+      <div class="resp-box-title">⚠ Responsabilidad profesional irrenunciable</div>
+      <div class="resp-box-text">Todo texto generado por las plataformas BRB es un borrador orientativo de uso exclusivo para revisión técnica. <strong>El profesional firmante — tutor, MAI, psicopedagogo o fonoaudiólogo — es el único y exclusivo responsable</strong> de la interpretación pedagógica o clínica, la validación técnica del contenido, la adecuación al caso específico y el uso institucional del documento. La firma del documento implica responsabilidad profesional plena sobre su contenido. Las plataformas BRB son herramientas de asistencia — no reemplazan el juicio profesional en ninguna circunstancia.</div>
+      <div class="resp-checklist">
+        <div class="resp-item">Verificar que los datos del alumno son correctos antes de firmar</div>
+        <div class="resp-item">Validar que las estrategias son viables en el contexto real del aula</div>
+        <div class="resp-item">Confirmar que las metas del PPI son alcanzables para el alumno</div>
+        <div class="resp-item">Consultar al equipo docente antes de implementar configuraciones</div>
+        <div class="resp-item">Verificar la existencia real de las fuentes citadas en los informes</div>
+        <div class="resp-item">Adaptar el lenguaje al destinatario específico del documento</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- IA EN EL CONTEXTO ACTUAL -->
+<section style="background:var(--card);border-top:1px solid rgba(200,168,75,.08)">
+  <div class="inner">
+    <div class="sec-tag">La IA en la educación hoy</div>
+    <h2 class="sec-title">No es el futuro. <em>Es el presente.</em></h2>
+    <p class="sec-lead">La integración de la inteligencia artificial en el trabajo educativo no es una opción — es una realidad que ya está transformando la práctica profesional. La pregunta no es si usar IA, sino cómo usarla con rigor y ética.</p>
+    <div class="valor-grid" style="margin-top:2.5rem">
+      <div class="valor-card" style="border-top-color:var(--suite)">
+        <div class="valor-num" style="color:var(--suite)">El problema real</div>
+        <div class="valor-title">La sobrecarga burocrática</div>
+        <div class="valor-desc">Un MAI que atiende 8 alumnos con inclusión dedica 40% de su tiempo a redactar documentos. Un tutor que gestiona 20 legajos activos no tiene tiempo de registrar cada intervención con el rigor que exige la normativa. La burocracia le roba tiempo al trabajo real con el estudiante.</div>
+      </div>
+      <div class="valor-card inclusion" style="border-top-color:var(--verde-cl)">
+        <div class="valor-num" style="color:var(--verde-cl)">La solución BRB</div>
+        <div class="valor-title">IA que libera tiempo profesional</div>
+        <div class="valor-desc">Un PPI que antes tomaba 3 horas se genera en 15 minutos. Una guía de entrevista que antes requería preparación manual aparece en 30 segundos. El tiempo liberado se invierte donde importa: en el vínculo real con el estudiante, la familia y el equipo docente.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ECOSISTEMA -->
+<section id="ecosistema">
+  <div class="inner">
+    <div class="sec-tag">Ecosistema BRB IA</div>
+    <h2 class="sec-title">7 herramientas. <em>Un ecosistema.</em></h2>
+    <p class="sec-lead">Cada herramienta cubre un rol diferente del sistema educativo argentino. Juntas, documentan y asisten todo el ciclo de enseñanza-aprendizaje — desde el aula hasta la gestión institucional y la investigación.</p>
+    <div class="eco-grid">
+      <div class="eco-card">
+        <div class="eco-num">01 · BRB Educa</div>
+        <div class="eco-name">Generador de Clases</div>
+        <div class="eco-desc">Planificaciones didácticas con IA para docentes. Metodología RTFC + protocolo SAVI.</div>
+        <span class="eco-tag eco-tag-v">Para docentes</span>
+      </div>
+      <div class="eco-card">
+        <div class="eco-num">02 · BRB Estudio</div>
+        <div class="eco-name">Generador de Estudio</div>
+        <div class="eco-desc">Materiales de estudio personalizados para alumnos. Resúmenes, mapas y ejercicios.</div>
+        <span class="eco-tag eco-tag-v">Para alumnos</span>
+      </div>
+      <div class="eco-card">
+        <div class="eco-num">03 · EvaluAR</div>
+        <div class="eco-name">Generador de Evaluaciones</div>
+        <div class="eco-desc">Rúbricas, evaluaciones integradoras y matrices de seguimiento para docentes.</div>
+        <span class="eco-tag eco-tag-v">Para docentes</span>
+      </div>
+      <div class="eco-card current">
+        <div class="eco-num">04 · BRB Tutoría</div>
+        <div class="eco-name">Generador POT</div>
+        <div class="eco-desc">Legajos, intervenciones e IA contextualizada para el Profesor Orientador Tutor.</div>
+        <span class="eco-tag eco-tag-new">Suite Inclusiva</span>
+      </div>
+      <div class="eco-card">
+        <div class="eco-num">05 · BRB Dirección</div>
+        <div class="eco-name">Asesor de Dirección</div>
+        <div class="eco-desc">36 documentos institucionales para equipos directivos de escuelas secundarias.</div>
+        <span class="eco-tag eco-tag-v">Para directivos</span>
+      </div>
+      <div class="eco-card">
+        <div class="eco-num">06 · BRB Tesis</div>
+        <div class="eco-name">Generador de Tesis</div>
+        <div class="eco-desc">Trabajos de investigación académica con IA. Desde secundario hasta posgrado.</div>
+        <span class="eco-tag eco-tag-v">Para estudiantes</span>
+      </div>
+      <div class="eco-card current">
+        <div class="eco-num">07 · BRB Inclusión</div>
+        <div class="eco-name">Neuro-Estrategias PPI/DUA</div>
+        <div class="eco-desc">PPI, Configuraciones de Apoyo, Traductor Clínico-Pedagógico e Informes MAI.</div>
+        <span class="eco-tag eco-tag-new">Suite Inclusiva · Nuevo</span>
+      </div>
+      <div class="eco-card" style="border-style:dashed;border-color:rgba(200,168,75,.1);background:transparent;">
+        <div class="eco-num" style="color:rgba(200,168,75,.3)">En desarrollo</div>
+        <div class="eco-name" style="color:rgba(255,255,255,.2)">Próxima herramienta</div>
+        <div class="eco-desc" style="color:rgba(184,175,168,.25)">El ecosistema BRB continúa creciendo con nuevas herramientas para el sistema educativo.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<div class="cta-section" id="contacto">
+  <div class="sec-tag" style="justify-content:center">Acceso a las plataformas</div>
+  <h2 class="cta-title">¿Tu institución necesita<br><em>esta suite?</em></h2>
+  <p class="cta-desc">Las licencias son individuales por profesional. Un usuario, un dispositivo. Sin suscripción mensual — licencia anual renovable. Gestión directa sin intermediarios.</p>
+  <div class="cta-btns">
+    <a href="mailto:bbbarrera1986@gmail.com?subject=Consulta%20Suite%20BRB%20Tutor%20%2B%20Inclusión&body=Hola%20Boris%2C%0A%0AQuiero%20consultar%20sobre%20licencias%20para%20la%20Suite%20BRB%20(Tutoría%20%2B%20Inclusión).%0A%0ANombre%3A%0AInstitución%3A%0ARol%3A%0ACantidad%20de%20usuarios%3A" class="btn-suite">Consultar Suite Tutor + Inclusión →</a>
+    <a href="mailto:bbbarrera1986@gmail.com?subject=Consulta%20Generador%20Tutoría%20BRB&body=Hola%20Boris%2C%0A%0AQuiero%20consultar%20sobre%20el%20Generador%20Tutoría%20POT.%0A%0ANombre%3A%0AInstitución%3A" class="btn-v">Solo Tutoría POT</a>
+    <a href="mailto:bbbarrera1986@gmail.com?subject=Consulta%20Generador%20Inclusión%20BRB&body=Hola%20Boris%2C%0A%0AQuiero%20consultar%20sobre%20el%20Generador%20Inclusión%20BRB.%0A%0ANombre%3A%0ARol%20(MAI%2FPsicopedagogo%2FFonoaudiólogo)%3A%0AInstitución%3A" class="btn-p">Solo Inclusión</a>
+  </div>
+  <div class="cta-note">Respondemos en menos de 24 horas · <a href="mailto:bbbarrera1986@gmail.com">bbbarrera1986@gmail.com</a> · +54 297 517-6351</div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div>
+      <div class="footer-brand">Boris Rodríguez Barrera</div>
+      <div class="footer-orcid">ORCID: 0009-0004-6583-6439</div>
+      <p class="footer-txt">Especialista en Gestión de Calidad, Procesos Industriales y Microbiología.<br>Docente — Escuela Municipal de Pesca "Juan Demonte" N.° 2701.<br>Puerto Madryn, Chubut, Argentina.</p>
+      <div class="footer-brands">
+        <span class="footer-brand-item">BRB Estrategia &amp; Procesos</span>
+        <span class="footer-brand-item">Soberanía Técnica Ediciones</span>
+      </div>
+    </div>
+    <div>
+      <div class="footer-col-title">Contacto</div>
+      <a class="footer-link" href="mailto:bbbarrera1986@gmail.com?subject=Consulta%20BRB%20Suite%20Educativa">✉ bbbarrera1986@gmail.com</a>
+      <a class="footer-link" href="tel:+5429751576351">📞 +54 297 517-6351</a>
+      <a class="footer-link" href="https://github.com/bbbarrera1986-rgb" target="_blank">🐙 github.com/bbbarrera1986-rgb</a>
+      <div style="margin-top:1.25rem">
+        <a href="mailto:bbbarrera1986@gmail.com?subject=Consulta%20Suite%20BRB%20Tutor%20%2B%20Inclusión&body=Hola%20Boris%2C%0A%0AQuiero%20consultar%20sobre%20licencias%20para%20la%20Suite%20BRB.%0A%0ANombre%3A%0AInstitución%3A%0ARol%3A" class="btn-suite" style="font-size:11px;padding:10px 18px">Consultar por correo →</a>
+      </div>
+    </div>
+    <div>
+      <div class="footer-col-title">Suite Inclusiva</div>
+      <a class="footer-link" href="https://bbbarrera1986-rgb.github.io/brb-generador/generador_tutoria_BRB_v1.html" target="_blank">→ Generador Tutoría POT</a>
+      <a class="footer-link" href="https://bbbarrera1986-rgb.github.io/brb-inclusion/" target="_blank">→ Generador Inclusión BRB</a>
+      <a class="footer-link" href="https://bbbarrera1986-rgb.github.io/brb-inclusion/manual/" target="_blank">→ Manual Inclusión</a>
+    </div>
+    <div>
+      <div class="footer-col-title">Ecosistema BRB</div>
+      <div class="eco-footer-item">Generador de Clases BRB v2.1</div>
+      <div class="eco-footer-item">Generador de Estudio BRB v2.1</div>
+      <div class="eco-footer-item">EvaluAR BRB v1.0</div>
+      <div class="eco-footer-item curr">Tutoría POT BRB v1.0 ·</div>
+      <div class="eco-footer-item">Asesor de Dirección BRB v2.0</div>
+      <div class="eco-footer-item">Generador de Tesis BRB v1.0</div>
+      <div class="eco-footer-item curr">Inclusión & Neuro-Estrategias v1.0 · Nuevo</div>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <div class="footer-copy">© 2026 BRB Estrategia &amp; Procesos · Soberanía Técnica Ediciones · Puerto Madryn, Chubut, Argentina</div>
+    <div class="footer-copy">Suite Educación Inclusiva BRB · Todos los derechos reservados</div>
+  </div>
+</footer>
+
+<script>
+// ── HERO TABS ──
+function heroTab(n) {
+  ['ht1','ht2'].forEach((id,i) => document.getElementById(id).classList.toggle('on', i+1===n));
+  document.getElementById('hero-panel-1').style.display = n===1 ? 'block' : 'none';
+  document.getElementById('hero-panel-2').style.display = n===2 ? 'block' : 'none';
+}
+setInterval(() => { const on = document.getElementById('ht1').classList.contains('on'); heroTab(on ? 2 : 1); }, 4000);
+
+// ── DEMO TABS ──
+function demoTab(id, el) {
+  document.querySelectorAll('.demo-tab').forEach(t => t.classList.remove('on'));
+  document.querySelectorAll('.demo-panel').forEach(p => p.classList.remove('on'));
+  el.classList.add('on');
+  document.getElementById('dp-' + id).classList.add('on');
+}
+
+// ── DEMO TUTORÍA ──
+let selTool = null;
+function selToolDemo(tool, el) {
+  document.querySelectorAll('.td-tool').forEach(t => t.classList.remove('sel'));
+  el.classList.add('sel'); selTool = tool;
+  document.getElementById('btn-demo-tutor').disabled = false;
+  document.getElementById('demo-output-tutor').style.display = 'none';
+}
+
+const DEMO_TUTOR = {
+  guia_entrevista: {
+    tag: 'GUÍA DE ENTREVISTA INDIVIDUAL',
+    body: `GUÍA DE ENTREVISTA INDIVIDUAL
+Legajo N° 2026-007 · González, Valentina R. · 4.° Año B
+Tipo: Seguimiento · Objetivo: Evaluar evolución y acordar cierre
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+APERTURA (5 min)
+¿Cómo estuviste en estas semanas?
+¿Hay algo que quieras contarme antes de comenzar?
+
+SITUACIÓN ACADÉMICA (10 min)
+¿Cómo te fue en Tecnología de Materiales?
+¿Lograste entregar los trabajos prácticos pendientes?
+¿El grupo de trabajo funcionó mejor?
+
+SITUACIÓN SOCIOAFECTIVA (8 min)
+¿Cómo están las cosas en casa?
+¿Notás que podés concentrarte mejor que antes?
+¿Hay algo que sigue siendo difícil?
+
+ACUERDOS Y CIERRE (5 min)
+¿Qué harías diferente si algo volviera a complicarse?
+¿Querés seguir con el seguimiento o te sentís lista para cerrar el legajo?
+
+PRÓXIMO PASO SUGERIDO: Evaluación de cierre en junio según evolución.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+BORRADOR ORIENTATIVO — Todo documento requiere revisión y firma del tutor responsable.`
+  },
+  contacto_familia: {
+    tag: 'TEXTO CONTACTO CON FAMILIA',
+    body: `COMUNICACIÓN INSTITUCIONAL — TUTOR ESCOLAR
+Institución: [NOMBRE DE LA INSTITUCIÓN]
+Tutor/a: [NOMBRE DEL TUTOR]
+Fecha: [FECHA]
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Estimada Sra. Rodríguez:
+
+Me comunico desde el espacio de tutoría escolar para informarle sobre la evolución de Valentina en el último período.
+
+Me alegra poder compartir que hemos observado una mejora significativa en su asistencia y participación en clase. Valentina ha retomado sus rutinas de estudio y la relación con el grupo ha mejorado notablemente.
+
+Quedamos a su disposición para cualquier consulta y le agradecemos su disposición y compromiso durante este proceso.
+
+Cordialmente,
+[NOMBRE Y FIRMA DEL TUTOR]
+Profesor/a Orientador/a Tutor/a
+[INSTITUCIÓN] — Ciclo lectivo 2026
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+BORRADOR ORIENTATIVO — El tutor es responsable de revisar y adaptar este texto.`
+  },
+  informe_tray: {
+    tag: 'INFORME INSTITUCIONAL DE TRAYECTORIA',
+    body: `INFORME DE TRAYECTORIA ESCOLAR
+[INSTITUCIÓN] — Ciclo lectivo 2026
+Fecha: [FECHA]
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+DATOS DEL CASO
+Legajo N°: 2026-007 · Año/División: 4.° Año B
+Motivo de apertura: Derivación docente — Asistencia irregular y bajo rendimiento en materias técnicas.
+Fecha de apertura: 12 de marzo de 2026
+Tutor/a interviniente: [NOMBRE]
+
+INTERVENCIONES REALIZADAS
+Total de intervenciones: 3
+Tipos: Entrevista individual · Contacto familiar · Observación en aula
+
+EVOLUCIÓN
+La estudiante muestra mejoría sostenida en asistencia (recuperación del 80%) y en su vínculo con el grupo de pares. Se observa mayor predisposición y participación en las instancias prácticas.
+
+SITUACIÓN ACTUAL
+Activa en seguimiento. Se proyecta evaluación de cierre para junio 2026.
+
+RECOMENDACIONES
+Continuar seguimiento quincenal hasta finalización del 2° trimestre. Articular con docentes de materias técnicas para monitoreo del rendimiento.
+
+[FIRMA DEL TUTOR] · Decreto 146/08 · Chubut
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+BORRADOR ORIENTATIVO — El tutor es responsable de revisar, completar y firmar.`
+  },
+  estrategias: {
+    tag: 'ESTRATEGIAS DE ESTUDIO PERSONALIZADAS',
+    body: `PLAN DE ESTRATEGIAS DE ESTUDIO
+Estudiante: [NOMBRE Y APELLIDO] · Legajo N° 2026-007
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+FORTALEZAS A POTENCIAR
+→ Capacidad verbal y expresión oral destacadas
+→ Buen vínculo con pares seleccionados
+
+ESTRATEGIAS SUGERIDAS
+
+1. ORGANIZACIÓN DEL ESTUDIO
+   · Agenda semanal con bloques de 45 minutos y descanso de 10
+   · Lista de tareas por materia con fechas de entrega
+
+2. MATERIAS TÉCNICAS
+   · Buscar tutorías entre pares con compañeros/as fuertes en el área
+   · Priorizar la comprensión del proceso sobre el resultado
+   · Usar recursos visuales: diagramas y esquemas del proceso productivo
+
+3. GESTIÓN EMOCIONAL
+   · Identificar señales de saturación y comunicarlas antes de que escalen
+   · Establecer un espacio fijo de estudio en el hogar, sin dispositivos
+
+PRÓXIMO PASO: Revisión de la implementación en la entrevista de mayo.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+BORRADOR ORIENTATIVO — El tutor debe adaptar estas estrategias al contexto real.`
+  },
+  plan_grupal: {
+    tag: 'ACTIVIDAD DE TUTORÍA GRUPAL',
+    body: `ACTIVIDAD DE TUTORÍA GRUPAL
+Grupo: 4.° Año B · Duración: 50 minutos
+Objetivo: Fortalecer vínculos y gestión de conflictos entre pares
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+APERTURA (10 min)
+Dinámica "La pelota de preguntas": Pasarse una pelota imaginaria respondiendo: "¿Qué fue lo mejor de esta semana?"
+
+DESARROLLO (25 min)
+Actividad "El mapa del grupo": Cada estudiante anota en un papel:
+· Algo que valora del grupo
+· Algo que le gustaría mejorar
+Puesta en común sin identificar autores. El tutor modera la discusión.
+
+CIERRE (15 min)
+Acuerdo grupal: 3 compromisos concretos para el próximo mes.
+Registro en un afiche que queda en el aula.
+
+MATERIALES NECESARIOS
+Papeles · Marcadores · Afiche grande
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+BORRADOR ORIENTATIVO — El tutor adapta la actividad al contexto real del grupo.`
+  }
+};
+
+function showDemoOutput(type) {
+  if (type === 'tutor' && selTool) {
+    const d = DEMO_TUTOR[selTool];
+    document.getElementById('demo-tutor-tag').textContent = d.tag;
+    document.getElementById('demo-tutor-body').textContent = d.body;
+    document.getElementById('demo-output-tutor').style.display = 'block';
+    document.getElementById('demo-output-tutor').scrollIntoView({behavior:'smooth',block:'nearest'});
+  }
+  if (type === 'inc' && selMod) {
+    const d = DEMO_INC[selMod];
+    document.getElementById('demo-inc-tag').textContent = d.tag;
+    document.getElementById('demo-inc-body').textContent = d.body;
+    document.getElementById('demo-output-inc').style.display = 'block';
+    document.getElementById('demo-output-inc').scrollIntoView({behavior:'smooth',block:'nearest'});
+  }
+}
+
+// ── DEMO INCLUSIÓN ──
+let selMod = null;
+function selModDemo(mod, el) {
+  document.querySelectorAll('.inc-mod').forEach(m => m.classList.remove('sel'));
+  el.classList.add('sel'); selMod = mod;
+  document.getElementById('btn-demo-inc').disabled = false;
+  document.getElementById('demo-output-inc').style.display = 'none';
+}
+
+const DEMO_INC = {
+  ppi: {
+    tag: 'PPI — PROYECTO PEDAGÓGICO INDIVIDUAL',
+    body: `PROYECTO PEDAGÓGICO INDIVIDUAL
+Res. CFE 311/16 · Anexo II
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+DATOS INSTITUCIONALES
+Institución: [NOMBRE DE LA INSTITUCIÓN]
+Año/División: 2.° Año B · Nivel Secundario
+Ciclo lectivo: 2026 · Período: 1° Trimestre
+
+ESTUDIANTE
+Nombre y apellido: [NOMBRE Y APELLIDO DEL ESTUDIANTE]
+DNI: [DNI] · Fecha de nacimiento: [FECHA]
+
+DIAGNÓSTICO
+Principal: TDAH — Trastorno por Déficit de Atención e Hiperactividad (moderado)
+Secundario: Dislexia leve
+CUD: Vigente · Obra social: OSDE 310
+
+EQUIPO INTERVINIENTE
+MAI: Prof. García · Profesional tratante: [NOMBRE MÉDICO]
+Docentes involucrados: [LISTADO]
+
+METAS DEL PERÍODO — 1° TRIMESTRE 2026
+Área de Lengua: Completar la lectura de textos de hasta 2 páginas con apoyo visual.
+Área de Matemáticas: Resolver problemas de hasta 2 pasos con apoyo de calculadora.
+Área Social: Participar en al menos 2 actividades grupales estructuradas por semana.
+
+CONFIGURACIONES DE APOYO PREVISTAS
+→ Tipografía ampliada y espaciado aumentado en todos los materiales escritos
+→ Tiempo extendido en evaluaciones (50% adicional)
+→ Evaluación oral como alternativa a la escrita en las materias de mayor dificultad
+→ Reducción de cantidad de ejercicios manteniendo la calidad conceptual
+
+COMPROMISOS DE LA FAMILIA
+→ [COMPLETAR CON LOS ACUERDOS REALIZADOS CON LA FAMILIA]
+
+FECHA Y FIRMAS
+Fecha: [FECHA] · Lugar: [LOCALIDAD]
+
+__________________    __________________    __________________
+[FIRMA MAI]           [FIRMA DIRECTIVO]     [FIRMA FAMILIA]
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+BORRADOR ORIENTATIVO — El MAI es el único responsable de su validación y firma.`
+  },
+  traductor: {
+    tag: 'TRADUCTOR CLÍNICO-PEDAGÓGICO',
+    body: `ESTRATEGIAS DE AULA DERIVADAS DEL DIAGNÓSTICO
+Para uso del docente de grado — Elaborado por el MAI
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+DIAGNÓSTICO: TDAH moderado + Dislexia leve
+Perfil funcional: Alta capacidad verbal. Baja memoria de trabajo. Dificultad en lectura prolongada y organización escrita.
+
+ESTRATEGIAS POR BARRERA IDENTIFICADA
+
+BARRERA ATENCIONAL (TDAH)
+→ Segmentar las consignas en pasos de no más de 2 instrucciones
+→ Usar señales visuales y verbales para retomar la tarea (no llamados de atención)
+→ Ubicar al estudiante cerca del docente, lejos de fuentes de distracción
+→ Permitir descansos activos breves (30 segundos) cada 20 minutos de trabajo sostenido
+
+BARRERA LECTORA (Dislexia)
+→ Usar tipografía sans-serif (Arial o similar) con tamaño mínimo 14pt
+→ Mayor espaciado entre líneas (1.5 o doble espacio)
+→ Leer las consignas en voz alta antes de que el estudiante comience
+→ No penalizar errores ortográficos en la evaluación de contenidos
+
+BARRERA DE MEMORIA DE TRABAJO
+→ Proveer listas de cotejo con los pasos del procedimiento por escrito
+→ No borrar el pizarrón hasta que todos los estudiantes terminen
+→ Permitir el uso de la carpeta como material de consulta durante las evaluaciones
+
+EVALUACIÓN ADAPTADA SUGERIDA
+Modalidad oral con apoyo visual o escrita simplificada con múltiple opción.
+Tiempo extendido: 50% adicional al tiempo estándar del grupo.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+BORRADOR ORIENTATIVO — El MAI valida y el docente implementa bajo su responsabilidad.`
+  },
+  config: {
+    tag: 'CONFIGURACIONES DE APOYO',
+    body: `CONFIGURACIONES DE APOYO
+Res. CFE 311/16 · Anexo III
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+ESTUDIANTE: [NOMBRE Y APELLIDO] · Legajo N° INC-2026-003
+Diagnóstico: TDAH + Dislexia · Ciclo: 2026
+
+BARRERAS IDENTIFICADAS
+
+Barreras didácticas:
+→ Dificultad para sostener la atención durante consignas extensas
+→ Lentitud en la decodificación lectora (dislexia leve)
+→ Baja capacidad de organización de la información escrita
+
+Barreras comunicacionales:
+→ Dificultad para seguir instrucciones orales múltiples simultáneas
+
+TIPO DE CONFIGURACIÓN: Apoyo didáctico + Apoyo de evaluación
+
+RESPUESTAS A LAS BARRERAS
+
+Atención y asesoramiento:
+→ El MAI orienta al equipo docente al inicio de cada trimestre sobre las estrategias activas.
+
+Provisión de recursos:
+→ Materiales impresos con tipografía aumentada y mayor espaciado
+→ Listas de cotejo procedimentales para cada tarea compleja
+
+Cooperación y acción coordinada:
+→ Reunión trimestral del equipo interviniente (MAI + docentes + familia)
+→ El MAI observa en aula 1 vez por mes para monitorear la implementación
+
+Seguimiento:
+→ Informe de avance al cierre de cada trimestre
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+BORRADOR ORIENTATIVO — El MAI es responsable de su validación y adecuación.`
+  },
+  informe_mai: {
+    tag: 'INFORME DE AVANCE MAI',
+    body: `INFORME DE AVANCE MAI — 1° TRIMESTRE 2026
+Destinatario: Obra Social OSDE 310
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+DATOS DEL PROFESIONAL
+MAI: Prof. García · [MATRÍCULA PROFESIONAL]
+Institución: [NOMBRE] · Nivel Secundario
+
+DATOS DEL ALUMNO/A
+Nombre: [NOMBRE Y APELLIDO DEL ESTUDIANTE]
+DNI: [DNI] · Fecha de nacimiento: [FECHA]
+Diagnóstico: TDAH moderado + Dislexia leve
+CUD N°: [NÚMERO] · Vencimiento: [FECHA]
+
+PERÍODO DE INTERVENCIÓN
+Desde: [FECHA INICIO] · Hasta: [FECHA CIERRE]
+Frecuencia: 4 horas semanales de apoyo en aula
+
+AVANCES DEL PERÍODO
+→ Mejora en la organización de la tarea escrita con uso de listas de cotejo
+→ Mayor tolerancia a la frustración en tareas de lectura extensa
+→ Participación sostenida en actividades grupales estructuradas
+→ Asistencia regular durante el trimestre
+
+DIFICULTADES PERSISTENTES
+→ La velocidad lectora continúa por debajo del promedio del grupo
+→ Requiere apoyo para la organización autónoma del tiempo de estudio
+
+RECOMENDACIONES PARA EL PRÓXIMO PERÍODO
+→ Continuar con las configuraciones de apoyo actuales
+→ Incorporar evaluación oral como modalidad prioritaria en Lengua
+→ Articular con el servicio de fonoaudiología de la obra social
+
+[FIRMA Y SELLO DEL MAI]
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+BORRADOR ORIENTATIVO — El MAI es el único responsable de su validación y firma.`
+  },
+  dua: {
+    tag: 'PLANIFICACIÓN DUA',
+    body: `PLANIFICACIÓN BAJO DISEÑO UNIVERSAL PARA EL APRENDIZAJE
+CAST 2018 · Tres principios DUA
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+MATERIA: Ciencias Naturales · TEMA: Ecosistemas — Cadenas alimentarias
+AÑO: 2.° Secundario · DURACIÓN: 3 clases de 80 minutos
+
+OBJETIVO DE APRENDIZAJE (para todos los alumnos)
+Comprender la transferencia de energía en las cadenas alimentarias e identificar el rol de productores, consumidores y descomponedores.
+
+PRINCIPIO 1 — MÚLTIPLES MEDIOS DE REPRESENTACIÓN
+→ Explicación oral + esquema visual en el pizarrón (todos)
+→ Video animado corto (5 min) con subtítulos (alumnos con dificultad auditiva o lectora)
+→ Ficha resumen impresa con tipografía ampliada (alumno con inclusión)
+→ Modelo físico manipulable con fichas de animales y plantas
+
+PRINCIPIO 2 — MÚLTIPLES MEDIOS DE ACCIÓN Y EXPRESIÓN
+→ Opción A: Dibujar y etiquetar una cadena alimentaria (modalidad visual)
+→ Opción B: Describir oralmente una cadena con preguntas del docente
+→ Opción C: Armar la cadena con fichas recortables (modalidad manipulativa)
+El alumno con inclusión trabaja con Opción C y presenta oralmente.
+
+PRINCIPIO 3 — MÚLTIPLES MEDIOS DE MOTIVACIÓN
+→ Contexto local: cadenas alimentarias del Mar Patagónico (ancla el aprendizaje)
+→ Trabajo en pequeños grupos heterogéneos (cada rol está claramente definido)
+→ Retroalimentación positiva en proceso, no solo en resultado
+
+EVALUACIÓN ADAPTADA (alumno con PPI)
+Observación de la cadena armada + explicación oral al docente.
+Criterio de logro: Identificar correctamente los 3 roles en la cadena.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+BORRADOR ORIENTATIVO — El MAI y el docente co-diseñan la implementación.`
+  },
+  eval_adapt: {
+    tag: 'EVALUACIÓN ADAPTADA',
+    body: `EVALUACIÓN ADAPTADA
+Res. CFE 311/16 · Art. 48 — Criterios de promoción
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+ESTUDIANTE: [NOMBRE Y APELLIDO] · Legajo N° INC-2026-003
+MATERIA: Ciencias Naturales · PERÍODO: 1° Trimestre 2026
+DOCENTE: [NOMBRE] · MAI: Prof. García
+
+CONTENIDOS A EVALUAR (según PPI)
+→ Identificar productores, consumidores y descomponedores
+→ Describir la transferencia de energía en una cadena alimentaria simple
+→ Reconocer una cadena alimentaria del entorno patagónico
+
+MODALIDAD DE EVALUACIÓN
+Tipo: Evaluación oral con apoyo visual
+Tiempo: Sin límite estricto (hasta 20 minutos)
+Apoyo permitido: Ficha de referencia con vocabulario clave
+
+PROCEDIMIENTO
+1. El docente muestra una imagen de una cadena alimentaria.
+2. Formula preguntas orales: "¿Quién produce? ¿Quién consume? ¿Qué pasa si falta uno?"
+3. El alumno responde oralmente. El docente registra la respuesta.
+
+CRITERIOS DE LOGRO ADAPTADOS
+Logrado: Identifica correctamente los 3 roles y explica la transferencia de energía con sus palabras.
+En proceso: Identifica 2 de los 3 roles con apoyo de preguntas orientadoras.
+No logrado: No logra identificar los roles aún con apoyo.
+
+CALIFICACIÓN: Según escala institucional aplicada a estos criterios adaptados.
+
+[FIRMA DOCENTE]          [FIRMA MAI]
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+BORRADOR ORIENTATIVO — El docente y el MAI son responsables de su implementación.`
+  }
+};
+
+// ── NAV SCROLL ──
+const navLinks = document.querySelectorAll('.nav-links a[href^="#"]');
+window.addEventListener('scroll', () => {
+  let current = '';
+  document.querySelectorAll('section[id], header[id], div[id]').forEach(s => {
+    if (window.scrollY >= s.offsetTop - 100) current = s.id;
+  });
+  navLinks.forEach(a => { a.style.color = a.getAttribute('href') === '#' + current ? 'var(--suite)' : ''; });
+}, { passive: true });
+</script>
+</body>
+</html>
